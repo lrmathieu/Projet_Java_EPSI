@@ -20,7 +20,7 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			this.emf = Persistence.createEntityManagerFactory("JavaProject");
+			this.emf = Persistence.createEntityManagerFactory("Projet_Java_EPSI");
 			this.mediator = new Mediator( this.emf );
 			
 			Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
