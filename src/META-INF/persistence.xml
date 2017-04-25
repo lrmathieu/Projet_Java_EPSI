@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="JavaProject" transaction-type="RESOURCE_LOCAL">
+		<class>com.capgemini.project.java.jfx.biz.Account</class>
+		<class>com.capgemini.project.java.jfx.biz.CountryCode</class>
+		<class>com.capgemini.project.java.jfx.biz.Owner</class>
+		<class>com.capgemini.project.java.jfx.biz.PeriodicTransaction</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mypersonnalbank"/>
+			<property name="javax.persistence.jdbc.user" value="mypersonnalbank"/>
+			<property name="javax.persistence.jdbc.password" value="zKwFC7Pgr06rHXRH"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+		</properties>
+	</persistence-unit>
+</persistence>
