@@ -26,13 +26,20 @@ public class AccountsOverviewController extends ControllerBase{
 	public void initialize(Mediator mediator) {
 		EntityManager em = mediator.createEntityManager();
 		List<Account> accounts = em.createQuery("SELECT a FROM Account a").getResultList();
+		List<Bank> banks = em.createQuery("SELECT b FROM Bank b").getResultList();
 		
 		// Remplissage du tableview avec accounts
 		this.listAccounts.setItems(FXCollections.observableList(accounts));
+		
+		// Remplissage du tableview avec accounts
+		this.listAccounts.setItems(FXCollections.observableList(banks));
 	}
 	
 	@FXML
 	private TableView<Account> listAccounts;
+	
+	@FXML
+	private TableView<Bank> listBanks;
 		
 	@FXML
 	private Button btnApply;	
