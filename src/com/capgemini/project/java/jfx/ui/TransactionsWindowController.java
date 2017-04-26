@@ -67,12 +67,12 @@ public class TransactionsWindowController extends ControllerBase{
 	public void initialize(Mediator mediator) {
 		try {
 			EntityManager em = mediator.createEntityManager();
+			
+			// ATTENTION AU DRY avec les 3 instructions suivantes
 			List<PeriodicTransaction> transactions = em.createNamedQuery(
 					"PeriodicTransaction.findAll", 
 					PeriodicTransaction.class
 			).getResultList();
-
-			//List<Account> accounts = em.createQuery("SELECT a.typeDescription FROM Account a").getResultList();
 			List<TransactionType> transactiontypes = em.createNamedQuery(
 					"TransactionType.findAll", 
 					TransactionType.class
@@ -81,8 +81,8 @@ public class TransactionsWindowController extends ControllerBase{
 					"Account.findAll", 
 					Account.class
 			).getResultList();
+			
 			this.choiceAccount.setItems(FXCollections.observableList(accounts));
-
 			this.choiceTransactionType.setItems(FXCollections.observableList(transactiontypes));
 			this.perTransTable.setItems(FXCollections.observableList(transactions));			
 			this.perTransTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PeriodicTransaction>() {
@@ -91,7 +91,7 @@ public class TransactionsWindowController extends ControllerBase{
 					updateForm(newVal==null ? new PeriodicTransaction() : newVal);
 				}
 			});
-			// force the field to be numeric only
+			// we want to force the field to be numeric only:
 		    this.transValue.textProperty().addListener(new ChangeListener<String>() {
 		        @Override
 		        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -108,12 +108,7 @@ public class TransactionsWindowController extends ControllerBase{
 		}
 		this.cur = new PeriodicTransaction();
 		handleBtnNew(null);
-		
-//		EntityManager entMan = mediator.createEntityManager();
-//		List<PeriodicTransaction> transactions = entMan.createQuery(
-//				"SELECT transactions FROM PeriodicTransaction transactions").getResultList();
-//
-//		this.perTransTable.setItems(FXCollections.observableList(transactions));		
+			
 	}
 	
 	@FXML
@@ -140,14 +135,14 @@ public class TransactionsWindowController extends ControllerBase{
 	}
 	@FXML
 	private void handleBtnNew(ActionEvent event) {
-		this.perTransTable.getSelectionModel().select(null); // indirectly calls updateForm(new Task())
+		this.perTransTable.getSelectionModel().select(null); // indirectly calls updateForm(new PeriodicTransaction())
 		this.btnNew.setDisable(true);
 	}
 	
 	private boolean updateForm(PeriodicTransaction newTransaction) {
 		this.resetErrors();
 		if(this.dirty) {
-			Alert alert  = new Alert(AlertType.CONFIRMATION, "La transaction est modifiée. Enregistrer les modifications ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+			Alert alert  = new Alert(AlertType.CONFIRMATION, "The transaction is modified. Save the modifications?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 			
 			alert.showAndWait();
 			
@@ -198,12 +193,12 @@ public class TransactionsWindowController extends ControllerBase{
 		if(err) {
 			return false;
 		}
+		this.cur.setAccount(this.choiceAccount.getValue());
 		this.cur.setTransactionDate(DateUtils.LocalDate2Date(this.dateCreated.getValue()));
-		this.cur.setWording(this.txtLabel.getText());
 		this.cur.setTransactionType(this.choiceTransactionType.getValue());
 		this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
-		this.cur.setAccount(this.choiceAccount.getValue());
-		
+		this.cur.setWording(this.txtLabel.getText());
+
 		this.cur.setDayNumber(2);
 		this.cur.setEndDateTransaction(this.cur.getTransactionDate());
 		this.cur.setIdCategory(1);
