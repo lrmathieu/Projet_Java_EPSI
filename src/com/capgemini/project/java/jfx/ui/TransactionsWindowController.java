@@ -45,8 +45,8 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private Button btnApply;
 	@FXML private Button btnNew;
 	@FXML private Label errAccount;
-	@FXML private Label errCreated;
-	@FXML private Label errLabel;
+	@FXML private Label errDateTrans;
+	@FXML private Label errTxtTrans;
 	@FXML private Label errTransType;
 	@FXML private Label errTransValue;
 	
@@ -58,10 +58,6 @@ public class TransactionsWindowController extends ControllerBase{
     @FXML private Label dateTransLabel;
     @FXML private Label wordingTransLabel;
     @FXML private Label transValueLabel;
-
-	public TransactionsWindowController() {
-		
-	}
 	
 	@Override
 	public void initialize(Mediator mediator) {
@@ -171,11 +167,11 @@ public class TransactionsWindowController extends ControllerBase{
 		boolean err=false;
 		
 		if(this.dateTransaction.getValue()==null) {
-			this.errCreated.setVisible(true);
+			this.errDateTrans.setVisible(true);
 			err=true;
 		}
 		if(this.txtTransaction.getText().isEmpty()) {
-			this.errLabel.setVisible(true);
+			this.errTxtTrans.setVisible(true);
 			err=true;
 		}
 		if(this.choiceAccount.getValue()==null) {
@@ -237,7 +233,7 @@ public class TransactionsWindowController extends ControllerBase{
 		}
 	}
 	private void resetErrors() {
-		for(Label l : new Label[]{ errCreated, errLabel, errTransValue, errTransType, errAccount }) {
+		for(Label l : new Label[]{ errDateTrans, errTxtTrans, errTransValue, errTransType, errAccount }) {
 			l.setVisible(false);
 		}
 	}
