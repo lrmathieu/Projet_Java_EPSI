@@ -23,8 +23,10 @@ public class MainApp extends Application {
 			this.emf = Persistence.createEntityManagerFactory("Projet_Java_EPSI");
 			this.mediator = new Mediator( this.emf );
 			
+			// fenetre Cedric (TransactionsWindow)
 			Scene scene = new Scene(ControllerBase.loadFxml("TransactionsWindow.fxml", mediator));
 
+			// fenetre Raphael (AccountsOverview)
 			//Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
