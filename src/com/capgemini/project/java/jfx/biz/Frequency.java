@@ -20,7 +20,10 @@ public class Frequency implements Serializable {
 	public Frequency() {
 	}
 
-
+	public Frequency(int unit) {
+		this.unit = unit;
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {

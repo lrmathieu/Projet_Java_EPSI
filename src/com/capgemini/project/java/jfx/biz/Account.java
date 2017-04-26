@@ -208,6 +208,11 @@ public class Account implements Serializable {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public String toString() {
+		return this.typeDescription;
+	}
 
 /*
 	//bi-directional many-to-many association to Owner

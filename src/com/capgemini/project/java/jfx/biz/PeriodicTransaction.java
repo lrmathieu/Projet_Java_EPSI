@@ -18,14 +18,14 @@ public class PeriodicTransaction implements Serializable {
 	private int dayNumber;
 	private Date endDateTransaction;
 	private int idCategory;
-	private int idTransactionType;
+	//private int idTransactionType;
 	private Date transactionDate;
 	private double transactionValue;
 	private String wording;
 	private Account account;
 	private Frequency frequency;
 	private TargetTransaction targettransaction;
-
+	private TransactionType transactiontype;
 
 	public PeriodicTransaction() {
 	}
@@ -97,16 +97,6 @@ public class PeriodicTransaction implements Serializable {
 		this.idCategory = idCategory;
 	}
 
-
-	public int getIdTransactionType() {
-		return this.idTransactionType;
-	}
-
-	public void setIdTransactionType(int idTransactionType) {
-		this.idTransactionType = idTransactionType;
-	}
-
-
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getTransactionDate() {
 		return this.transactionDate;
@@ -147,7 +137,7 @@ public class PeriodicTransaction implements Serializable {
 	}
 	
 	//bi-directional many-to-one association to Frequency
-	@ManyToOne
+	@ManyToOne (cascade = CascadeType.PERSIST)
 	@JoinColumn(name="idFrequency")
 	public Frequency getFrequency() {
 		return this.frequency;
@@ -158,7 +148,7 @@ public class PeriodicTransaction implements Serializable {
 	}
 	
 	//bi-directional many-to-one association to TargetTransaction
-	@ManyToOne
+	@ManyToOne (cascade = CascadeType.PERSIST)
 	@JoinColumn(name="idTargetTransaction")
 	public TargetTransaction getTargetTransaction() {
 		return this.targettransaction;
@@ -166,6 +156,17 @@ public class PeriodicTransaction implements Serializable {
 
 	public void setTargetTransaction(TargetTransaction targettransaction) {
 		this.targettransaction = targettransaction;
+	}
+	
+	//bi-directional many-to-one association to TransactionType
+	@ManyToOne 
+	@JoinColumn(name="idTransactionType")
+	public TransactionType getTransactionType() {
+		return this.transactiontype;
+	}
+
+	public void setTransactionType(TransactionType transactiontype) {
+		this.transactiontype = transactiontype;
 	}
 
 }

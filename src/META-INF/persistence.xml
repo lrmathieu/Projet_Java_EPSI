@@ -7,6 +7,7 @@
 		<class>com.capgemini.project.java.jfx.biz.PeriodicTransaction</class>
 		<class>com.capgemini.project.java.jfx.biz.TargetTransaction</class>
 		<class>com.capgemini.project.java.jfx.biz.Frequency</class>
+		<class>com.capgemini.project.java.jfx.biz.TransactionType</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mypersonnalbank"/>
 			<property name="javax.persistence.jdbc.user" value="mypersonnalbank"/>

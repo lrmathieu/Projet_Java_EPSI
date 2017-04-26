@@ -23,7 +23,9 @@ public class MainApp extends Application {
 			this.emf = Persistence.createEntityManagerFactory("Projet_Java_EPSI");
 			this.mediator = new Mediator( this.emf );
 			
-			Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
+			Scene scene = new Scene(ControllerBase.loadFxml("TransactionsWindow.fxml", mediator));
+
+			//Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
