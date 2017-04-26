@@ -32,12 +32,12 @@
                <children>
                   <TableView fx:id="listAccounts" prefHeight="274.0" prefWidth="579.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columns>
-                      <TableColumn prefWidth="119.0" text="Bank" >
+                      <TableColumn fx:id="bankNameColumn" prefWidth="119.0" text="Bank" >
                       	<cellValueFactory>
                       		<PropertyValueFactory property="Name" />
                       	</cellValueFactory>
                       </TableColumn>
-                      <TableColumn prefWidth="325.0" text="Account">
+                      <TableColumn fx:id="accountNumberColumn" prefWidth="325.0" text="Account">
                       	<cellValueFactory>
                       		<PropertyValueFactory property="AccountNumber" />
                       	</cellValueFactory>

@@ -1,5 +1,6 @@
 package com.capgemini.project.java.jfx.ui;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,29 +18,44 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Button;
-
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class AccountsOverviewController extends ControllerBase{
 	
 	@Override
 	public void initialize(Mediator mediator) {
-		EntityManager em = mediator.createEntityManager();
-		List<Account> accounts = em.createQuery("SELECT a FROM Account a").getResultList();
-		List<Bank> banks = em.createQuery("SELECT b FROM Bank b").getResultList();
-		
+		EntityManager emAccount = mediator.createEntityManager();
+		List<Account> accounts = emAccount.createQuery("SELECT a FROM Account a").getResultList();
+
 		// Remplissage du tableview avec accounts
 		this.listAccounts.setItems(FXCollections.observableList(accounts));
 		
-		// Remplissage du tableview avec accounts
-		this.listAccounts.setItems(FXCollections.observableList(banks));
+		EntityManager emBank = mediator.createEntityManager();
+		List<Bank> banks = emBank.createQuery("SELECT b FROM Bank b").getResultList();
+				
+		// Remplissage du tableview avec banks
+		this.listBanks.setItems(FXCollections.observableList(banks));
 	}
 	
 	@FXML
 	private TableView<Account> listAccounts;
 	
 	@FXML
+	private TableColumn<Account, String> accountNumberColumn;
+	
+	@FXML
+	private Label accountNumberLabel;
+	
+	@FXML
 	private TableView<Bank> listBanks;
+	
+	@FXML
+	private TableColumn<Bank, String> bankNameColumn;
+	
+	@FXML
+	private Label bankNameLabel;
 		
 	@FXML
 	private Button btnApply;	
