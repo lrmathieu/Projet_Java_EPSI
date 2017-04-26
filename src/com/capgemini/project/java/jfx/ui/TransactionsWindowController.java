@@ -37,8 +37,8 @@ import javafx.scene.input.KeyEvent;
 
 public class TransactionsWindowController extends ControllerBase{
 	@FXML private CheckBox chkDone;
-	@FXML private TextField txtLabel;
-	@FXML private DatePicker dateCreated;
+	@FXML private TextField txtTransaction;
+	@FXML private DatePicker dateTransaction;
 	@FXML private ChoiceBox<TransactionType> choiceTransactionType;
 	@FXML private ChoiceBox<Account> choiceAccount;
 	@FXML private TextField transValue;
@@ -153,8 +153,8 @@ public class TransactionsWindowController extends ControllerBase{
 			}			
 		}
 		this.cur = newTransaction;
-		this.txtLabel.setText(this.cur.getWording());
-		this.dateCreated.setValue(DateUtils.DateToLocalDate(this.cur.getTransactionDate()));
+		this.txtTransaction.setText(this.cur.getWording());
+		this.dateTransaction.setValue(DateUtils.DateToLocalDate(this.cur.getTransactionDate()));
 		this.choiceAccount.setValue(this.cur.getAccount());
 		this.choiceTransactionType.setValue(this.cur.getTransactionType());
 		this.transValue.setText(String.valueOf(this.cur.getTransactionValue()));
@@ -170,11 +170,11 @@ public class TransactionsWindowController extends ControllerBase{
 		ObservableList<PeriodicTransaction> transactions = this.perTransTable.getItems();
 		boolean err=false;
 		
-		if(this.dateCreated.getValue()==null) {
+		if(this.dateTransaction.getValue()==null) {
 			this.errCreated.setVisible(true);
 			err=true;
 		}
-		if(this.txtLabel.getText().isEmpty()) {
+		if(this.txtTransaction.getText().isEmpty()) {
 			this.errLabel.setVisible(true);
 			err=true;
 		}
@@ -186,7 +186,7 @@ public class TransactionsWindowController extends ControllerBase{
 			this.errTransType.setVisible(true);
 			err=true;
 		}
-		if(Double.parseDouble(this.transValue.getText())<=0d) {
+		if(this.transValue.getText().isEmpty() || Double.parseDouble(this.transValue.getText())<=0d ) {
 			this.errTransValue.setVisible(true);
 			err=true;
 		}
@@ -194,10 +194,10 @@ public class TransactionsWindowController extends ControllerBase{
 			return false;
 		}
 		this.cur.setAccount(this.choiceAccount.getValue());
-		this.cur.setTransactionDate(DateUtils.LocalDate2Date(this.dateCreated.getValue()));
+		this.cur.setTransactionDate(DateUtils.LocalDate2Date(this.dateTransaction.getValue()));
 		this.cur.setTransactionType(this.choiceTransactionType.getValue());
 		this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
-		this.cur.setWording(this.txtLabel.getText());
+		this.cur.setWording(this.txtTransaction.getText());
 
 		this.cur.setDayNumber(2);
 		this.cur.setEndDateTransaction(this.cur.getTransactionDate());

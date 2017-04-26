@@ -59,7 +59,7 @@
          		
          		<Label                           layoutX="25.0" layoutY="243.0" text="Transaction Value" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="140.0" />
 	            <TextField fx:id="transValue"    layoutX="25.0" layoutY="119.0" onKeyPressed="#handleTextChanged" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="155.0" />
-	            <Label     fx:id="errTransValue" layoutX="27.0" layoutY="144.0" prefHeight="17.0" prefWidth="300.0" text="The transaction value must be positive" textFill="RED" visible="false" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="187.0" />
+	            <Label     fx:id="errTransValue" layoutX="27.0" layoutY="144.0" prefHeight="17.0" prefWidth="300.0" text="The transaction value cannot be empty and must be positive" textFill="RED" visible="false" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="187.0" />
 	           
 	            <Label                                   layoutX="25.0" layoutY="170.0" text="Transaction Type" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="205.0" />
 	            <ChoiceBox fx:id="choiceTransactionType" layoutX="25.0" layoutY="187.0" onAction="#handleFieldChanged" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="220.0" />
