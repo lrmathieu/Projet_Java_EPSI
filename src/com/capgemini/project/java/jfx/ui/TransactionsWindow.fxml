@@ -47,7 +47,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="269.0" prefWidth="300.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="300.0">
 	         <children>
 	            <Label layoutX="25.0" layoutY="102.0" text="Transaction Date" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="10.0" />
 	            <DatePicker fx:id="dateTransaction" layoutX="26.0" layoutY="48.0" onAction="#handleFieldChanged" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="25.0" />
@@ -68,6 +68,10 @@
 	            <Label layoutX="25.0" layoutY="170.0" text="Account" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="270.0" />
 	            <ChoiceBox fx:id="choiceAccount" layoutX="25.0" layoutY="187.0" onAction="#handleFieldChanged" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="285.0" />
 	            <Label fx:id="errAccount" layoutX="26.0" layoutY="218.0" prefHeight="17.0" prefWidth="300.0" text="An account must be selected" textFill="RED" visible="false" AnchorPane.topAnchor="317.0"/>
+	            
+	           	<Label layoutX="25.0" layoutY="170.0" text="Target Transaction" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="335.0" />
+	            <ChoiceBox fx:id="choiceTarget" layoutX="25.0" layoutY="187.0" onAction="#handleFieldChanged" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="350.0" />
+<!-- 	            <Label fx:id="errAccount" layoutX="26.0" layoutY="218.0" prefHeight="17.0" prefWidth="300.0" text="An account must be selected" textFill="RED" visible="false" AnchorPane.topAnchor="317.0"/> -->
 	            
 	            <ButtonBar layoutX="27.0" layoutY="544.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
                    <buttons>

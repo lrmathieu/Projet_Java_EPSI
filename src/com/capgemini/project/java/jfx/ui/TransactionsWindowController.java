@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+//import javax.persistence.Query;
 import javax.persistence.RollbackException;
 
 import com.capgemini.project.java.jfx.biz.PeriodicTransaction;
@@ -41,6 +42,7 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private DatePicker dateTransaction;
 	@FXML private ChoiceBox<TransactionType> choiceTransactionType;
 	@FXML private ChoiceBox<Account> choiceAccount;
+	@FXML private ChoiceBox<TargetTransaction> choiceTarget;
 	@FXML private TextField transValue;
 	@FXML private Button btnApply;
 	@FXML private Button btnNew;
@@ -64,7 +66,7 @@ public class TransactionsWindowController extends ControllerBase{
 		try {
 			EntityManager em = mediator.createEntityManager();
 			
-			// ATTENTION AU DRY avec les 3 instructions suivantes
+			// ATTENTION AU DRY avec les instructions suivantes, essayer de factoriser + tard
 			List<PeriodicTransaction> transactions = em.createNamedQuery(
 					"PeriodicTransaction.findAll", 
 					PeriodicTransaction.class
@@ -77,8 +79,20 @@ public class TransactionsWindowController extends ControllerBase{
 					"Account.findAll", 
 					Account.class
 			).getResultList();
+			List<TargetTransaction> targets = em.createNamedQuery(
+					"TargetTransaction.findAll", 
+					TargetTransaction.class
+			).getResultList();
+			//Query q = em.createQuery("SELECT f FROM f.unit =: frq_unit");
+			//q.setParameter("frq_unit", 2);
+			//List<Frequency> frequencies = em.createNamedQuery("Frequency.findAll", Frequency.class).getResultList();
+			//this.freq = frequencies.get(0);
+			//List<TargetTransaction> targets = em.createNamedQuery("TargetTransaction.findAll", TargetTransaction.class).getResultList();
+			//this.target = targets.get(0);
+			
 			
 			this.choiceAccount.setItems(FXCollections.observableList(accounts));
+			this.choiceTarget.setItems(FXCollections.observableList(targets));
 			this.choiceTransactionType.setItems(FXCollections.observableList(transactiontypes));
 			this.perTransTable.setItems(FXCollections.observableList(transactions));			
 			this.perTransTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PeriodicTransaction>() {
@@ -152,9 +166,9 @@ public class TransactionsWindowController extends ControllerBase{
 		this.txtTransaction.setText(this.cur.getWording());
 		this.dateTransaction.setValue(DateUtils.DateToLocalDate(this.cur.getTransactionDate()));
 		this.choiceAccount.setValue(this.cur.getAccount());
+		this.choiceTarget.setValue(this.cur.getTargetTransaction());
 		this.choiceTransactionType.setValue(this.cur.getTransactionType());
 		this.transValue.setText(String.valueOf(this.cur.getTransactionValue()));
-		//this.choiceUser.setValue(this.cur.getUtilisateur());
 		this.btnNew.setDisable(false);
 		this.btnApply.setDisable(true);
 		this.dirty = false;
@@ -190,6 +204,7 @@ public class TransactionsWindowController extends ControllerBase{
 			return false;
 		}
 		this.cur.setAccount(this.choiceAccount.getValue());
+		this.cur.setTargetTransaction(this.choiceTarget.getValue());
 		this.cur.setTransactionDate(DateUtils.LocalDate2Date(this.dateTransaction.getValue()));
 		this.cur.setTransactionType(this.choiceTransactionType.getValue());
 		this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
@@ -198,10 +213,12 @@ public class TransactionsWindowController extends ControllerBase{
 		this.cur.setDayNumber(2);
 		this.cur.setEndDateTransaction(this.cur.getTransactionDate());
 		this.cur.setIdCategory(1);
-		Frequency freq = new Frequency(1);
-		this.cur.setFrequency(freq);
-		TargetTransaction target = new TargetTransaction("test");
-		this.cur.setTargetTransaction(target);
+		this.cur.setIdFrequency(1);
+		
+		//Frequency freq = new Frequency(1);
+		//this.cur.setFrequency(this.freq);
+		//TargetTransaction target = new TargetTransaction("test");
+		//this.cur.setTargetTransaction(this.target);
 
 		try {
 			EntityManager em = getMediator().createEntityManager();
@@ -244,5 +261,8 @@ public class TransactionsWindowController extends ControllerBase{
 	
 	private PeriodicTransaction cur = null;
 	private boolean dirty = false;
+	
+	//private Frequency freq;
+	//private TargetTransaction target;
 	
 }

@@ -89,4 +89,8 @@ public class TargetTransaction implements Serializable {
 		return PeriodicTransaction;
 	}
 
+	@Override
+	public String toString() {
+		return this.summary;
+	}
 }

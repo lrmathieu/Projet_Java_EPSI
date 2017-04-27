@@ -18,12 +18,12 @@ public class PeriodicTransaction implements Serializable {
 	private int dayNumber;
 	private Date endDateTransaction;
 	private int idCategory;
-	//private int idTransactionType;
+	private int idFrequency;
 	private Date transactionDate;
 	private double transactionValue;
 	private String wording;
 	private Account account;
-	private Frequency frequency;
+	//private Frequency frequency;
 	private TargetTransaction targettransaction;
 	private TransactionType transactiontype;
 
@@ -96,6 +96,14 @@ public class PeriodicTransaction implements Serializable {
 	public void setIdCategory(int idCategory) {
 		this.idCategory = idCategory;
 	}
+	
+	public int getIdFrequency() {
+		return this.idFrequency;
+	}
+
+	public void setIdFrequency(int idFrequency) {
+		this.idFrequency = idFrequency;
+	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getTransactionDate() {
@@ -136,19 +144,19 @@ public class PeriodicTransaction implements Serializable {
 		this.account = account;
 	}
 	
-	//bi-directional many-to-one association to Frequency
-	@ManyToOne (cascade = CascadeType.PERSIST)
-	@JoinColumn(name="idFrequency")
-	public Frequency getFrequency() {
-		return this.frequency;
-	}
-
-	public void setFrequency(Frequency frequency) {
-		this.frequency = frequency;
-	}
+//	//bi-directional many-to-one association to Frequency
+//	@ManyToOne (cascade = CascadeType.PERSIST)
+//	@JoinColumn(name="idFrequency")
+//	public Frequency getFrequency() {
+//		return this.frequency;
+//	}
+//
+//	public void setFrequency(Frequency frequency) {
+//		this.frequency = frequency;
+//	}
 	
 	//bi-directional many-to-one association to TargetTransaction
-	@ManyToOne (cascade = CascadeType.PERSIST)
+	@ManyToOne //(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="idTargetTransaction")
 	public TargetTransaction getTargetTransaction() {
 		return this.targettransaction;

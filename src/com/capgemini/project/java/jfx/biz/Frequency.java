@@ -15,7 +15,7 @@ public class Frequency implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private int unit;
-	private List<PeriodicTransaction> PeriodicTransactions;
+	//private List<PeriodicTransaction> PeriodicTransactions;
 
 	public Frequency() {
 	}
@@ -43,29 +43,29 @@ public class Frequency implements Serializable {
 		this.unit = unit;
 	}
 
-
-	//bi-directional many-to-one association to PeriodicTransaction
-	@OneToMany(mappedBy="frequency")
-	public List<PeriodicTransaction> getPeriodicTransactions() {
-		return this.PeriodicTransactions;
-	}
-
-	public void setPeriodicTransactions(List<PeriodicTransaction> PeriodicTransactions) {
-		this.PeriodicTransactions = PeriodicTransactions;
-	}
-
-	public PeriodicTransaction addPeriodicTransaction(PeriodicTransaction PeriodicTransaction) {
-		getPeriodicTransactions().add(PeriodicTransaction);
-		PeriodicTransaction.setFrequency(this);
-
-		return PeriodicTransaction;
-	}
-
-	public PeriodicTransaction removePeriodicTransaction(PeriodicTransaction PeriodicTransaction) {
-		getPeriodicTransactions().remove(PeriodicTransaction);
-		PeriodicTransaction.setFrequency(null);
-
-		return PeriodicTransaction;
-	}
+//
+//	//bi-directional many-to-one association to PeriodicTransaction
+//	@OneToMany(mappedBy="frequency")
+//	public List<PeriodicTransaction> getPeriodicTransactions() {
+//		return this.PeriodicTransactions;
+//	}
+//
+//	public void setPeriodicTransactions(List<PeriodicTransaction> PeriodicTransactions) {
+//		this.PeriodicTransactions = PeriodicTransactions;
+//	}
+//
+//	public PeriodicTransaction addPeriodicTransaction(PeriodicTransaction PeriodicTransaction) {
+//		getPeriodicTransactions().add(PeriodicTransaction);
+//		PeriodicTransaction.setFrequency(this);
+//
+//		return PeriodicTransaction;
+//	}
+//
+//	public PeriodicTransaction removePeriodicTransaction(PeriodicTransaction PeriodicTransaction) {
+//		getPeriodicTransactions().remove(PeriodicTransaction);
+//		PeriodicTransaction.setFrequency(null);
+//
+//		return PeriodicTransaction;
+//	}
 
 }
