@@ -26,17 +26,21 @@ public class AccountsOverviewController extends ControllerBase{
 	
 	@Override
 	public void initialize(Mediator mediator) {
-		EntityManager emAccount = mediator.createEntityManager();
-		List<Account> accounts = emAccount.createQuery("SELECT a FROM Account a").getResultList();
-
+		EntityManager em = mediator.createEntityManager();
+		
+		List<Bank> banks = em.createQuery("SELECT b FROM Bank b").getResultList();		
+		// Remplissage du tableview avec banks
+		this.listBanks.setItems(FXCollections.observableList(banks));
+		
+		List<Agency> agencies = em.createQuery("SELECT a FROM Agency a").getResultList();
+		// Remplissage du tableview avec banks
+		this.listAgencies.setItems(FXCollections.observableList(agencies));
+		
+		List<Account> accounts = em.createQuery("SELECT a FROM Account a").getResultList();
 		// Remplissage du tableview avec accounts
 		this.listAccounts.setItems(FXCollections.observableList(accounts));
 		
-		EntityManager emBank = mediator.createEntityManager();
-		List<Bank> banks = emBank.createQuery("SELECT b FROM Bank b").getResultList();
 				
-		// Remplissage du tableview avec banks
-		this.listBanks.setItems(FXCollections.observableList(banks));
 	}
 	
 	@FXML
@@ -47,6 +51,15 @@ public class AccountsOverviewController extends ControllerBase{
 	
 	@FXML
 	private Label accountNumberLabel;
+	
+	@FXML
+	private TableView<Agency> listAgencies;
+	
+	@FXML
+	private TableColumn<Agency, String> agencyNameColumn;
+	
+	@FXML
+	private Label agencyNameLabel;
 	
 	@FXML
 	private TableView<Bank> listBanks;
