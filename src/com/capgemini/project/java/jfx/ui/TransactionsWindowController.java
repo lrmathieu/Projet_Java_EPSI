@@ -48,10 +48,11 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private Button btnNew;
 	@FXML private Label errAccount;
 	@FXML private Label errDateTrans;
-	@FXML private Label errTxtTrans;
+	@FXML private Label errTargetTrans;
 	@FXML private Label errTransType;
 	@FXML private Label errTransValue;
-	
+	@FXML private Label errTxtTrans;
+
 	@FXML private TableView<PeriodicTransaction> perTransTable;
 	
     @FXML private TableColumn<PeriodicTransaction, Date> dateTransColumn;
@@ -196,6 +197,10 @@ public class TransactionsWindowController extends ControllerBase{
 			this.errTransType.setVisible(true);
 			err=true;
 		}
+		if(this.choiceTarget.getValue()==null) {
+			this.errTargetTrans.setVisible(true);
+			err=true;
+		}
 		if(this.transValue.getText().isEmpty() || Double.parseDouble(this.transValue.getText())<=0d ) {
 			this.errTransValue.setVisible(true);
 			err=true;
@@ -250,7 +255,7 @@ public class TransactionsWindowController extends ControllerBase{
 		}
 	}
 	private void resetErrors() {
-		for(Label l : new Label[]{ errDateTrans, errTxtTrans, errTransValue, errTransType, errAccount }) {
+		for(Label l : new Label[]{ errDateTrans, errTxtTrans, errTransValue, errTransType, errAccount, errTargetTrans }) {
 			l.setVisible(false);
 		}
 	}
