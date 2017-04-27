@@ -29,6 +29,7 @@ public class PeriodicTransaction implements Serializable {
 	private TransactionType transactiontype;
 
 	public PeriodicTransaction() {
+		this.transactionDate = Calendar.getInstance().getTime();
 	}
 
 	public PeriodicTransaction(String wording, double transactionValue, int dayNumber,
