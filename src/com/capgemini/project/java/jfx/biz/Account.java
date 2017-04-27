@@ -29,6 +29,7 @@ public class Account implements Serializable {
 	private CountryCode countryCode;
 	private List<PeriodicTransaction> periodicTransactions;
 	private List<Owner> owners;
+	private Agency agency;
 
 	public Account() {
 	}
@@ -131,7 +132,7 @@ public class Account implements Serializable {
 		this.idAccountType = idAccountType;
 	}
 
-
+	/*
 	public int getIdAgency() {
 		return this.idAgency;
 	}
@@ -139,6 +140,7 @@ public class Account implements Serializable {
 	public void setIdAgency(int idAgency) {
 		this.idAgency = idAgency;
 	}
+	*/
 
 
 	public double getInterestRate() {
@@ -207,6 +209,17 @@ public class Account implements Serializable {
 	public void setCountryCode(CountryCode countryCode) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	//bi-directional many-to-one association to Agency
+	@ManyToOne
+	@JoinColumn(name="idAgency")
+	public Agency getAgency() {
+		return this.agency;
+	}
+	
+	public void setAgency(Agency agency) {
+		this.agency = agency;
 	}
 
 /*

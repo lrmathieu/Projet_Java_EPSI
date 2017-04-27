@@ -18,6 +18,7 @@ public class Bank implements Serializable {
 	private int id;
 	private String name;
 	private String bankCode;
+	private List<Agency> agencyList;
 	
 	public Bank() {
 		
@@ -60,6 +61,16 @@ public class Bank implements Serializable {
 	
 	public void setBankCode(String bankCode) {
 		this.bankCode = bankCode;
+	}
+	
+	//bi-directional many-to-one association to PeriodicTransaction
+	@OneToMany(mappedBy="bank")
+	public List<Agency> getAgency() {
+		return this.agencyList;
+	}
+	
+	public void setAgency(List<Agency> agencyList) {
+		this.agencyList = agencyList;
 	}
 
 	

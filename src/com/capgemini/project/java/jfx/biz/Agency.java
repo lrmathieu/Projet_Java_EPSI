@@ -21,6 +21,7 @@ public class Agency implements Serializable {
 	private String counterCode;
 	private int idBank;
 	private int idAddress;
+	private Bank bank;
 	
 	public Agency() {
 		
@@ -64,23 +65,37 @@ public class Agency implements Serializable {
 	public void setCounterCode(String counterCode) {
 		this.counterCode = counterCode;
 	}
-		
+	
+	/*
 	public int getIdBank() {
 		return this.idBank;
 	}
-
+	
 	public void setIdBank(int idBank) {
 		this.idBank = idBank;
 	}
+	*/
 
 	public int getIdAddress() {
 		return this.idAddress;
 	}
+	
 
 	public void setIdAddress(int idAddress) {
 		this.idAddress = idAddress;
 	}
 	
+	//bi-directional many-to-one association to Countrycode
+	@ManyToOne
+	@JoinColumn(name="idBank")
+	public Bank getBank() {
+		return this.bank;
+	}
+	
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+		
 	
 
 }
