@@ -21,7 +21,7 @@
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capgemini.project.java.jfx.ui.TransactionsWindowController">
    <children>
    	 <TitledPane alignment="CENTER" animated="false" contentDisplay="CENTER" text="My Personnal Bank" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-       <font><Font size="24.0" /></font>
+       <font><Font size="18.0" /></font>
        <content>
       <SplitPane dividerPositions="0.60" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>

@@ -190,7 +190,7 @@ public class TransactionsWindowController extends ControllerBase{
 			this.errTargetTrans.setVisible(true);
 			err=true;
 		}
-		if(this.transValue.getText().isEmpty() || Double.parseDouble(this.transValue.getText())<=0d ) {
+		if(this.transValue.getText().isEmpty() || isDouble(this.transValue.getText())==false || Double.parseDouble(this.transValue.getText())<=0d ) {
 			this.errTransValue.setVisible(true);
 			err=true;
 		}
@@ -247,6 +247,24 @@ public class TransactionsWindowController extends ControllerBase{
 	private void processPersistenceException(PersistenceException e) {
 		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
 	}
+	
+    private boolean isDouble(String s){
+        try{
+            Double.parseDouble(s);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+//	private static boolean isParsableAsDouble(final String s) {
+//	    try {
+//	        Double.valueOf(s);
+//	        return true;
+//	    } catch (NumberFormatException numberFormatException) {
+//	        return false;
+//	    }
+//	}
 	    
 	private PeriodicTransaction cur = null;
 	private boolean dirty = false;
