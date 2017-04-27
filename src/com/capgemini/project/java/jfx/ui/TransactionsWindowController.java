@@ -6,13 +6,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
-//import javax.persistence.Query;
 import javax.persistence.RollbackException;
 
 import com.capgemini.project.java.jfx.biz.PeriodicTransaction;
 import com.capgemini.project.java.jfx.biz.Account;
 import com.capgemini.project.java.jfx.biz.DateUtils;
-import com.capgemini.project.java.jfx.biz.Frequency;
 import com.capgemini.project.java.jfx.biz.TargetTransaction;
 import com.capgemini.project.java.jfx.biz.TransactionType;
 import com.capgemini.project.java.jfx.ui.Mediator;
@@ -26,7 +24,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -36,8 +33,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 
+/**
+ *  
+ *  Principalement inspire du code TaskListController de Sylvain Labasse
+ */
 public class TransactionsWindowController extends ControllerBase{
-	@FXML private CheckBox chkDone;
 	@FXML private TextField txtTransaction;
 	@FXML private DatePicker dateTransaction;
 	@FXML private ChoiceBox<TransactionType> choiceTransactionType;
@@ -53,7 +53,7 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private Label errTransValue;
 	@FXML private Label errTxtTrans;
 
-	@FXML private TableView<PeriodicTransaction> perTransTable;
+	@FXML private TableView<PeriodicTransaction> listTransactions;
 	
     @FXML private TableColumn<PeriodicTransaction, Date> dateTransColumn;
     @FXML private TableColumn<PeriodicTransaction, String> wordingTransColumn;
@@ -67,42 +67,32 @@ public class TransactionsWindowController extends ControllerBase{
 		try {
 			EntityManager em = mediator.createEntityManager();
 			
-			// ATTENTION AU DRY avec les instructions suivantes, essayer de factoriser + tard
+			//DRY sur instructions qui suivent? A factoriser?
 			List<PeriodicTransaction> transactions = em.createNamedQuery(
-					"PeriodicTransaction.findAll", 
-					PeriodicTransaction.class
+					"PeriodicTransaction.findAll", PeriodicTransaction.class
 			).getResultList();
 			List<TransactionType> transactiontypes = em.createNamedQuery(
-					"TransactionType.findAll", 
-					TransactionType.class
+					"TransactionType.findAll", TransactionType.class
 			).getResultList();
 			List<Account> accounts = em.createNamedQuery(
-					"Account.findAll", 
-					Account.class
+					"Account.findAll", Account.class
 			).getResultList();
 			List<TargetTransaction> targets = em.createNamedQuery(
-					"TargetTransaction.findAll", 
-					TargetTransaction.class
+					"TargetTransaction.findAll", TargetTransaction.class
 			).getResultList();
-			//Query q = em.createQuery("SELECT f FROM f.unit =: frq_unit");
-			//q.setParameter("frq_unit", 2);
-			//List<Frequency> frequencies = em.createNamedQuery("Frequency.findAll", Frequency.class).getResultList();
-			//this.freq = frequencies.get(0);
-			//List<TargetTransaction> targets = em.createNamedQuery("TargetTransaction.findAll", TargetTransaction.class).getResultList();
-			//this.target = targets.get(0);
-			
 			
 			this.choiceAccount.setItems(FXCollections.observableList(accounts));
 			this.choiceTarget.setItems(FXCollections.observableList(targets));
 			this.choiceTransactionType.setItems(FXCollections.observableList(transactiontypes));
-			this.perTransTable.setItems(FXCollections.observableList(transactions));			
-			this.perTransTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PeriodicTransaction>() {
+			this.listTransactions.setItems(FXCollections.observableList(transactions));			
+			this.listTransactions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PeriodicTransaction>() {
 				@Override
 				public void changed(ObservableValue<? extends PeriodicTransaction> arg0, PeriodicTransaction oldVal, PeriodicTransaction newVal) {
 					updateForm(newVal==null ? new PeriodicTransaction() : newVal);
 				}
 			});
-			// we want to force the field to be numeric only:
+			
+			// To force the text in the field "transvalue" to be numeric only:
 		    this.transValue.textProperty().addListener(new ChangeListener<String>() {
 		        @Override
 		        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -118,8 +108,7 @@ public class TransactionsWindowController extends ControllerBase{
 			this.processPersistenceException(e);
 		}
 		this.cur = new PeriodicTransaction();
-		handleBtnNew(null);
-			
+		handleBtnNew(null);			
 	}
 	
 	@FXML
@@ -140,13 +129,13 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML
 	private void handleBtnApply(ActionEvent event) {
 		if(this.saveForm()) {
-			this.perTransTable.getSelectionModel().select(this.cur);
-			this.perTransTable.scrollTo(this.cur);
+			this.listTransactions.getSelectionModel().select(this.cur);
+			this.listTransactions.scrollTo(this.cur);
 		}
 	}
 	@FXML
 	private void handleBtnNew(ActionEvent event) {
-		this.perTransTable.getSelectionModel().select(null); // indirectly calls updateForm(new PeriodicTransaction())
+		this.listTransactions.getSelectionModel().select(null); // indirectly calls updateForm(new PeriodicTransaction())
 		this.btnNew.setDisable(true);
 	}
 	
@@ -178,7 +167,7 @@ public class TransactionsWindowController extends ControllerBase{
 	private boolean saveForm() {
 		boolean isNew = this.cur.getId()==0;
 		
-		ObservableList<PeriodicTransaction> transactions = this.perTransTable.getItems();
+		ObservableList<PeriodicTransaction> transactions = this.listTransactions.getItems();
 		boolean err=false;
 		
 		if(this.dateTransaction.getValue()==null) {
@@ -219,11 +208,6 @@ public class TransactionsWindowController extends ControllerBase{
 		this.cur.setEndDateTransaction(this.cur.getTransactionDate());
 		this.cur.setIdCategory(1);
 		this.cur.setIdFrequency(1);
-		
-		//Frequency freq = new Frequency(1);
-		//this.cur.setFrequency(this.freq);
-		//TargetTransaction target = new TargetTransaction("test");
-		//this.cur.setTargetTransaction(this.target);
 
 		try {
 			EntityManager em = getMediator().createEntityManager();
@@ -255,6 +239,7 @@ public class TransactionsWindowController extends ControllerBase{
 		}
 	}
 	private void resetErrors() {
+		
 		for(Label l : new Label[]{ errDateTrans, errTxtTrans, errTransValue, errTransType, errAccount, errTargetTrans }) {
 			l.setVisible(false);
 		}
@@ -263,11 +248,7 @@ public class TransactionsWindowController extends ControllerBase{
 		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
 	}
 	    
-	
 	private PeriodicTransaction cur = null;
 	private boolean dirty = false;
-	
-	//private Frequency freq;
-	//private TargetTransaction target;
 	
 }

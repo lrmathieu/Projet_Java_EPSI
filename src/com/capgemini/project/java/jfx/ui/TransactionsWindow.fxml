@@ -18,26 +18,26 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capgemini.project.java.jfx.ui.TransactionsWindowController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capgemini.project.java.jfx.ui.TransactionsWindowController">
    <children>
    	 <TitledPane alignment="CENTER" animated="false" contentDisplay="CENTER" text="My Personnal Bank" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
        <font><Font size="24.0" /></font>
        <content>
-      <SplitPane dividerPositions="0.12" prefHeight="600.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.60" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="300.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="400.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" text="ACCOUNT TRANSACTIONS DETAILS:" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <font><Font size="14.0" /></font></Label>
-                  <TableView fx:id="perTransTable" layoutX="33.0" layoutY="57.0" prefHeight="200.0" prefWidth="227.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+                  <TableView fx:id="listTransactions" layoutX="33.0" layoutY="57.0" prefHeight="600.0" prefWidth="400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                     <columns>
-                      <TableColumn fx:id="dateTransColumn" prefWidth="75.0" text="Date">
+                      <TableColumn fx:id="dateTransColumn" prefWidth="70.0" text="Date">
                       	<cellValueFactory><PropertyValueFactory property="TransactionDate" /></cellValueFactory>
                       </TableColumn>
-                      <TableColumn fx:id="wordingTransColumn" prefWidth="110.0" text="Transaction">
+                      <TableColumn fx:id="wordingTransColumn" prefWidth="230.0" text="Transaction">
                       		<cellValueFactory><PropertyValueFactory property="Wording" /></cellValueFactory>
                       </TableColumn>  
-                      <TableColumn fx:id="transValueColumn" prefWidth="110.0" text="Value">
+                      <TableColumn fx:id="transValueColumn" prefWidth="50.0" text="Value">
                       		<cellValueFactory><PropertyValueFactory property="TransactionValue" /></cellValueFactory>
                     </TableColumn>
                     </columns>
@@ -47,7 +47,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="300.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="400.0">
 	         <children>
 	            <Label layoutX="25.0" layoutY="102.0" text="Transaction Date" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="10.0" />
 	            <DatePicker fx:id="dateTransaction" layoutX="26.0" layoutY="48.0" onAction="#handleFieldChanged" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="25.0" />
@@ -75,7 +75,7 @@
 	            
 	            <ButtonBar layoutX="27.0" layoutY="544.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
                    <buttons>
- 					<Button fx:id="btnApply" layoutX="428.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBtnApply" text="Edit" AnchorPane.rightAnchor="14.0" AnchorPane.bottomAnchor="10.0" />
+ 					<Button fx:id="btnApply" layoutX="428.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBtnApply" text="Apply" AnchorPane.rightAnchor="14.0" AnchorPane.bottomAnchor="10.0" />
 	            	<Button fx:id="btnNew" layoutX="322.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBtnNew" text="New Transaction" AnchorPane.rightAnchor="93.0" AnchorPane.bottomAnchor="10.0" />
                    </buttons>
                 </ButtonBar>
