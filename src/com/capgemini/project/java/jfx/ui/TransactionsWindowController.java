@@ -34,8 +34,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 
 /**
- *  
- *  Principalement inspire du code TaskListController de Sylvain Labasse
+ *  FXML Controller for the Transactions window of the application
+ *  Inspired by Sylvain Labasse 's script TaskListController 
  */
 public class TransactionsWindowController extends ControllerBase{
 	@FXML private TextField txtTransaction;
@@ -62,6 +62,10 @@ public class TransactionsWindowController extends ControllerBase{
     @FXML private Label wordingTransLabel;
     @FXML private Label transValueLabel;
 	
+    /**
+     * TransactionsWindowController initializer
+     * @param mediator
+     */
 	@Override
 	public void initialize(Mediator mediator) {
 		try {
@@ -92,7 +96,9 @@ public class TransactionsWindowController extends ControllerBase{
 				}
 			});
 			
-			// To force the text in the field "transvalue" to be numeric only:
+			/**
+			 *  To force the text in the field "transvalue" to be numeric only:
+			 */
 		    this.transValue.textProperty().addListener(new ChangeListener<String>() {
 		        @Override
 		        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -126,6 +132,12 @@ public class TransactionsWindowController extends ControllerBase{
 		this.btnApply.setDisable(false);
 	}
 	
+	/**
+     * Called when the user click on "Apply" button
+     * Add the new PeriodicTransaction on Database with the values 
+     * chosen by the user in the different TextField and ChoiceBox
+     * @param event 
+     */
 	@FXML
 	private void handleBtnApply(ActionEvent event) {
 		if(this.saveForm()) {
@@ -133,6 +145,12 @@ public class TransactionsWindowController extends ControllerBase{
 			this.listTransactions.scrollTo(this.cur);
 		}
 	}
+		
+	/**
+     * Called when the user click on "New Transaction" button
+     * Initialize fields in order to add a new PeriodicTransaction on the Database
+     * @param event 
+     */
 	@FXML
 	private void handleBtnNew(ActionEvent event) {
 		this.listTransactions.getSelectionModel().select(null); // indirectly calls updateForm(new PeriodicTransaction())
@@ -142,12 +160,13 @@ public class TransactionsWindowController extends ControllerBase{
 	private boolean updateForm(PeriodicTransaction newTransaction) {
 		this.resetErrors();
 		if(this.dirty) {
-			Alert alert  = new Alert(AlertType.CONFIRMATION, "The transaction is modified. Save the modifications?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-			
+			Alert alert  = new Alert(AlertType.CONFIRMATION, 
+					"The transaction is modified. Save the modifications?", 
+					ButtonType.YES, ButtonType.NO, ButtonType.CANCEL
+			);
 			alert.showAndWait();
 			
-			ButtonType result = alert.getResult();
-			
+			ButtonType result = alert.getResult();			
 			if(result == ButtonType.CANCEL || (result == ButtonType.YES && !this.saveForm())) {
 				return false;				
 			}			
@@ -204,6 +223,8 @@ public class TransactionsWindowController extends ControllerBase{
 		this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
 		this.cur.setWording(this.txtTransaction.getText());
 
+		// initialistation des autres champs necessaires. 
+		// Ils seront de valeur fixe pour le moment
 		this.cur.setDayNumber(2);
 		this.cur.setEndDateTransaction(this.cur.getTransactionDate());
 		this.cur.setIdCategory(1);
@@ -238,8 +259,7 @@ public class TransactionsWindowController extends ControllerBase{
 			return false;
 		}
 	}
-	private void resetErrors() {
-		
+	private void resetErrors() {	
 		for(Label l : new Label[]{ errDateTrans, errTxtTrans, errTransValue, errTransType, errAccount, errTargetTrans }) {
 			l.setVisible(false);
 		}
@@ -248,6 +268,12 @@ public class TransactionsWindowController extends ControllerBase{
 		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
 	}
 	
+	/**
+     * Called when the user click on "New Transaction" button
+     * Initialize fields in order to add a new PeriodicTransaction on the Database
+     * @param s a String
+     * @return true or false if s cannot be converted to Double
+     */
     private boolean isDouble(String s){
         try{
             Double.parseDouble(s);
@@ -257,14 +283,6 @@ public class TransactionsWindowController extends ControllerBase{
             return false;
         }
     }
-//	private static boolean isParsableAsDouble(final String s) {
-//	    try {
-//	        Double.valueOf(s);
-//	        return true;
-//	    } catch (NumberFormatException numberFormatException) {
-//	        return false;
-//	    }
-//	}
 	    
 	private PeriodicTransaction cur = null;
 	private boolean dirty = false;
