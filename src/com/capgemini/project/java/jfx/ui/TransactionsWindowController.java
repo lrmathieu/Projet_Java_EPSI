@@ -98,13 +98,13 @@ public class TransactionsWindowController extends ControllerBase{
 			});
 			
 			/**
-			 *  To force the text in the field "transvalue" to be numeric only:
+			 *  To force the text in the field "transvalue" to be numeric only with a dot:
 			 */
 		    this.transValue.textProperty().addListener(new ChangeListener<String>() {
 		        @Override
 		        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-		            if (!newValue.matches("\\d*")) {
-		            	transValue.setText(newValue.replaceAll("[^\\d]", "."));
+		            if (!newValue.matches("(^\\d+(\\.\\d+)*$)")){ 
+		            	transValue.setText(newValue.replaceAll("[^\\d+(\\.\\d+)*$]", "")); 
 		            }
 		        }
 		    });
@@ -133,6 +133,21 @@ public class TransactionsWindowController extends ControllerBase{
 		this.dirty = true;
 		this.btnApply.setDisable(false);
 	}
+
+//  //code suivant: chercher a afficher les details de transactions par compte(Account)
+//	@FXML
+//	private void handleAccountFieldChanged(ActionEvent event) {
+//		this.fieldChanged();
+//	}
+//	private void accountFieldChanged() {
+//		this.resetErrors();
+//		EntityManager em = getMediator().createEntityManager();
+//		
+//		List<Account> account = em.createNamedQuery(
+//				"Account.findAll", Account.class
+//		).getResultList();
+//
+//	}
 	
 	/**
      * Called when the user click on "Apply" button. Add the new PeriodicTransaction on Database with the values 
@@ -147,13 +162,11 @@ public class TransactionsWindowController extends ControllerBase{
 		}
 	}
 
-/*
-	  /**
+	/**
      * Called when the user click on "Delete" button
-     * Delete the existing PeriodicTransaction selected from the Database
+     * Delete the selected existing PeriodicTransaction from the Database
      * @param event 
      */
-
     @FXML
     private void handleBtnDelete(ActionEvent event) {
     	EntityManager em = getMediator().createEntityManager();
