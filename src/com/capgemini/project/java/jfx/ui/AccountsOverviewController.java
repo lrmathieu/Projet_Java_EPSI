@@ -36,11 +36,15 @@ public class AccountsOverviewController extends ControllerBase{
 		// Remplissage du tableview avec banks
 		this.listAgencies.setItems(FXCollections.observableList(agencies));
 		
+		/*
+		List<Agency> agencies = em.createQuery("SELECT Account.accountNumber, Agency.name FROM Account INNER JOIN Agency ON Account.idAgency = Agency.id").getResultList();
+		// Remplissage du tableview avec banks
+		this.listAgencies.setItems(FXCollections.observableList(agencies));
+		*/
+		
 		List<Account> accounts = em.createQuery("SELECT a FROM Account a").getResultList();
 		// Remplissage du tableview avec accounts
-		this.listAccounts.setItems(FXCollections.observableList(accounts));
-		
-				
+		this.listAccounts.setItems(FXCollections.observableList(accounts));	
 	}
 	
 	@FXML
@@ -57,6 +61,10 @@ public class AccountsOverviewController extends ControllerBase{
 	
 	@FXML
 	private TableColumn<Agency, String> agencyNameColumn;
+	
+	/*@FXML
+	private TableColumn<Account, String> agencyNameColumn;
+	*/
 	
 	@FXML
 	private Label agencyNameLabel;
