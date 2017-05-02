@@ -45,6 +45,7 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private ChoiceBox<TargetTransaction> choiceTarget;
 	@FXML private TextField transValue;
 	@FXML private Button btnApply;
+	@FXML private Button btnDelete;
 	@FXML private Button btnNew;
 	@FXML private Label errAccount;
 	@FXML private Label errDateTrans;
@@ -111,10 +112,11 @@ public class TransactionsWindowController extends ControllerBase{
 		}
 		catch(PersistenceException e) {
 			this.btnNew.setDisable(true);
+			this.btnDelete.setDisable(true);
 			this.processPersistenceException(e);
 		}
 		this.cur = new PeriodicTransaction();
-		handleBtnNew(null);			
+		handleBtnNew(null);
 	}
 	
 	@FXML
@@ -133,8 +135,7 @@ public class TransactionsWindowController extends ControllerBase{
 	}
 	
 	/**
-     * Called when the user click on "Apply" button
-     * Add the new PeriodicTransaction on Database with the values 
+     * Called when the user click on "Apply" button. Add the new PeriodicTransaction on Database with the values 
      * chosen by the user in the different TextField and ChoiceBox
      * @param event 
      */
@@ -145,6 +146,40 @@ public class TransactionsWindowController extends ControllerBase{
 			this.listTransactions.scrollTo(this.cur);
 		}
 	}
+
+/*
+	  /**
+     * Called when the user click on "Delete" button
+     * Delete the existing PeriodicTransaction selected from the Database
+     * @param event 
+     */
+
+    @FXML
+    private void handleBtnDelete(ActionEvent event) {
+    	EntityManager em = getMediator().createEntityManager();
+        PeriodicTransaction deletedTrans = em.find(PeriodicTransaction.class, this.cur.getId());
+        
+    	Alert alert  = new Alert(AlertType.CONFIRMATION, 
+				"The transaction is going to be deleted. Do you want to continue?", 
+				ButtonType.OK, ButtonType.CANCEL
+		);
+		alert.showAndWait();
+		ButtonType result = alert.getResult();
+        try {            
+            if(result == ButtonType.OK) {
+                em.getTransaction().begin();
+                em.remove(deletedTrans);
+                em.getTransaction().commit();
+                this.listTransactions.getSelectionModel().select(this.cur);
+                this.listTransactions.getItems().remove(this.cur);
+            }
+         }
+         catch(Exception e){
+     		new Alert(AlertType.ERROR, "An error as occured", ButtonType.OK).showAndWait();
+         }
+        this.btnDelete.setDisable(true);
+     }
+
 		
 	/**
      * Called when the user click on "New Transaction" button
@@ -155,6 +190,7 @@ public class TransactionsWindowController extends ControllerBase{
 	private void handleBtnNew(ActionEvent event) {
 		this.listTransactions.getSelectionModel().select(null); // indirectly calls updateForm(new PeriodicTransaction())
 		this.btnNew.setDisable(true);
+		this.btnDelete.setDisable(true);
 	}
 	
 	private boolean updateForm(PeriodicTransaction newTransaction) {
@@ -180,6 +216,7 @@ public class TransactionsWindowController extends ControllerBase{
 		this.transValue.setText(String.valueOf(this.cur.getTransactionValue()));
 		this.btnNew.setDisable(false);
 		this.btnApply.setDisable(true);
+		this.btnDelete.setDisable(false);
 		this.dirty = false;
 		return true;
 	}
@@ -269,8 +306,7 @@ public class TransactionsWindowController extends ControllerBase{
 	}
 	
 	/**
-     * Called when the user click on "New Transaction" button
-     * Initialize fields in order to add a new PeriodicTransaction on the Database
+     * Check if a String s is a double or not
      * @param s a String
      * @return true or false if s cannot be converted to Double
      */
