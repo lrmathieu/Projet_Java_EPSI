@@ -121,8 +121,6 @@ public class ControllerOwner extends ControllerBase{
 		this.txtLabelFn.setText(this.cur.getFirstName());
 		this.txtLabelPh.setText(this.cur.getPhone());
 		this.dateBirth.setValue(DateUtils.DateToLocalDate(this.cur.getBirthday()));
-		//this.txtLabelPw.setText(this.cur.getPassword());
-		//this.txtLabelLog.setText(this.cur.getLogin());
 		this.btnNew.setDisable(false);
 		this.btnAdd.setDisable(true);
 		this.dirty = false;

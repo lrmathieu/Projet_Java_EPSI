@@ -9,6 +9,7 @@ import com.capgemini.project.java.jfx.ui.ControllerBase;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 //import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -26,21 +27,19 @@ public class MainApp extends Application {
 			
 			// fenetre Cedric (TransactionsWindow)
 			//Scene scene = new Scene(ControllerBase.loadFxml("TransactionsWindow.fxml", mediator));
-<<<<<<< HEAD
 
-=======
->>>>>>> 5eef483bd2d98487b3d5aea76e4596d7aed5dd1e
 			// fenetre Raphael (AccountsOverview)
 			//Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
 			
 			// fenetre Raphael (AccountsOverview)
-			Scene scene = new Scene(ControllerBase.loadFxml("AdvisorsOverview.fxml", mediator));
+			//Scene scene = new Scene(ControllerBase.loadFxml("AdvisorsOverview.fxml", mediator));
 
 			// fenetre Bailo (OwnerView)
-			Scene scene = new Scene(ControllerBase.loadFxml("OwnerView.fxml", mediator));
+			//Scene scene = new Scene(ControllerBase.loadFxml("OwnerView.fxml", mediator));
+			 Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));     
+		      Scene scene = new Scene(root);
 			
-			
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());		
+			scene.getStylesheets().add(getClass().getResource("MainWindow.fxml").toExternalForm());		
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 			
