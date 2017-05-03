@@ -21,15 +21,27 @@
           <center> 
              <TableView fx:id="listAccounts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" BorderPane.alignment="CENTER"> 
                <columns> 
-                 <TableColumn prefWidth="200.0" text="Agence"> 
+                 <TableColumn maxWidth="180.0" minWidth="100.0" prefWidth="140.0" text="Banque"> 
+                       	<cellValueFactory> 
+                       		<PropertyValueFactory property="BankName" /> 
+                       	</cellValueFactory> 
+                 </TableColumn>
+                 
+                 <TableColumn maxWidth="200.0" minWidth="100.0" prefWidth="200.0" text="Agence"> 
                        	<cellValueFactory> 
                        		<PropertyValueFactory property="AgencyName" /> 
                        	</cellValueFactory> 
                  </TableColumn>
                  
-                 <TableColumn prefWidth="200.0" text="Numéro de compte"> 
+                 <TableColumn maxWidth="200.0" minWidth="100.0" prefWidth="180.0" text="Numéro de compte"> 
                        	<cellValueFactory> 
                        		<PropertyValueFactory property="AccountNumber" /> 
+                       	</cellValueFactory> 
+                 </TableColumn>
+                 
+                 <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Solde"> 
+                       	<cellValueFactory> 
+                       		<PropertyValueFactory property="FirstTotal" /> 
                        	</cellValueFactory> 
                  </TableColumn> 
                  

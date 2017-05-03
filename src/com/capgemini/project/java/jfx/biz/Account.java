@@ -17,6 +17,7 @@ import java.util.List;
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private String typeDescription;
 	private String accountNumber;
 	private double alertTreshold;
 	private Date creationDate;
@@ -25,7 +26,6 @@ public class Account implements Serializable {
 	private int idAgency;
 	private double interestRate;
 	private int overdraft;
-	private String typeDescription;
 	private CountryCode countryCode;
 	private List<PeriodicTransaction> periodicTransactions;
 	private List<Owner> owners;
@@ -33,34 +33,15 @@ public class Account implements Serializable {
 
 	public Account() {
 	}
+	
 	public Account(String typeDescription, String accountNumber, Date creationDate,
 			double firstTotal, int overdraft, double interestRate, double alertTreshold) {
 		
-		if ( typeDescription==null ) {
-			throw new NullPointerException("typeDescription cannot be null !");
-		}
-		if ( accountNumber==null ) {
-			throw new NullPointerException("accountNumber cannot be null !");
-		}
-		if ( creationDate==null ) {
-			throw new NullPointerException("created cannot be null !");
-		}
-		if ( creationDate.getTime() > today().getTime() ) {
-			throw new IllegalArgumentException("created cannot be in the future !");
-		}
-		if ( firstTotal<0.0 ) {
-			throw new IllegalArgumentException("firstTotal must be strictly positive !");
-		}
-		if ( overdraft>0 ) {
-			throw new IllegalArgumentException("overdraft cannot be strictly positive !");
-		}
-		if ( interestRate<0.0 ) {
-			throw new IllegalArgumentException("interestRate cannot be strictly negative !");
-		}
-		if ( interestRate>100.0 ) {
-			throw new IllegalArgumentException("interestRate cannot be greater than 100 !");
-		}
-		
+		checkTypeDescription(typeDescription);
+		checkAccountNumber(accountNumber);
+		checkCreationDate(creationDate);
+		checkFirstTotal(firstTotal);
+		checkInterestRate(interestRate);
 		
 		this.typeDescription = typeDescription;
 		this.accountNumber = accountNumber;
@@ -71,10 +52,45 @@ public class Account implements Serializable {
 		this.alertTreshold = alertTreshold;
 	}
 	
+	private void checkTypeDescription(String typeDescription) {
+		if ( typeDescription==null ) {
+			throw new NullPointerException("typeDescription cannot be null !");
+		}
+	}
+	
+	private void checkAccountNumber(String accountNumber) {
+		if ( accountNumber==null ) {
+			throw new NullPointerException("accountNumber cannot be null !");
+		}
+	}
+	
+	private void checkCreationDate(Date creationDate) {
+		if ( creationDate==null ) {
+			throw new NullPointerException("created cannot be null !");
+		}
+		if ( creationDate.getTime() > today().getTime() ) {
+			throw new IllegalArgumentException("created cannot be in the future !");
+		}
+	}
+	
+	private void checkFirstTotal(double firstTotal) {
+		if ( firstTotal<0.0 ) {
+			throw new IllegalArgumentException("firstTotal must be strictly positive !");
+		}
+	}
+		
+	private void checkInterestRate(double interestRate) {
+		if ( interestRate<0.0 ) {
+			throw new IllegalArgumentException("interestRate cannot be strictly negative !");
+		}
+		if ( interestRate>100.0 ) {
+			throw new IllegalArgumentException("interestRate cannot be greater than 100 !");
+		}
+	}
+	
 	private Date today() {
 		return Calendar.getInstance().getTime();
 	}
-
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -86,24 +102,23 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
+	public String getTypeDescription() {
+		return this.typeDescription;
+	}
 
+	public void setTypeDescription(String typeDescription) {
+		checkTypeDescription(typeDescription);
+		this.typeDescription = typeDescription;
+	}
+	
 	public String getAccountNumber() {
 		return this.accountNumber;
 	}
 
 	public void setAccountNumber(String accountNumber) {
+		checkAccountNumber(accountNumber);
 		this.accountNumber = accountNumber;
 	}
-
-
-	public double getAlertTreshold() {
-		return this.alertTreshold;
-	}
-
-	public void setAlertTreshold(double alertTreshold) {
-		this.alertTreshold = alertTreshold;
-	}
-
 
 	@Temporal(TemporalType.DATE)
 	public Date getCreationDate() {
@@ -111,18 +126,18 @@ public class Account implements Serializable {
 	}
 
 	public void setCreationDate(Date creationDate) {
+		checkCreationDate(creationDate);
 		this.creationDate = creationDate;
 	}
-
 
 	public double getFirstTotal() {
 		return this.firstTotal;
 	}
 
 	public void setFirstTotal(double firstTotal) {
+		checkFirstTotal(firstTotal);
 		this.firstTotal = firstTotal;
 	}
-
 
 	public int getIdAccountType() {
 		return this.idAccountType;
@@ -142,16 +157,6 @@ public class Account implements Serializable {
 	}
 	*/
 
-
-	public double getInterestRate() {
-		return this.interestRate;
-	}
-
-	public void setInterestRate(double interestRate) {
-		this.interestRate = interestRate;
-	}
-
-
 	public int getOverdraft() {
 		return this.overdraft;
 	}
@@ -160,15 +165,22 @@ public class Account implements Serializable {
 		this.overdraft = overdraft;
 	}
 
-
-	public String getTypeDescription() {
-		return this.typeDescription;
+	public double getInterestRate() {
+		return this.interestRate;
 	}
 
-	public void setTypeDescription(String typeDescription) {
-		this.typeDescription = typeDescription;
+	public void setInterestRate(double interestRate) {
+		checkInterestRate(interestRate);
+		this.interestRate = interestRate;
+	}
+	
+	public double getAlertTreshold() {
+		return this.alertTreshold;
 	}
 
+	public void setAlertTreshold(double alertTreshold) {
+		this.alertTreshold = alertTreshold;
+	}
 
 	//bi-directional many-to-one association to Countrycode
 	@ManyToOne
@@ -180,7 +192,6 @@ public class Account implements Serializable {
 	public void setCountrycode(CountryCode countrycode) {
 		this.countryCode = countrycode;
 	}
-
 
 	//bi-directional many-to-one association to PeriodicTransaction
 	@OneToMany(mappedBy="account")
@@ -224,6 +235,10 @@ public class Account implements Serializable {
 	
 	public String getAgencyName() {
 		return this.agency.getName();
+	}
+	
+	public String getBankName() {
+		return this.agency.getBankName();
 	}
 
 /*

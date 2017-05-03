@@ -97,6 +97,10 @@ public class Agency implements Serializable {
 		this.bank = bank;
 	}
 	
+	public String getBankName() {
+		return this.bank.getName();
+	}
+	
 	//bi-directional one-to-many association to Account
 	@OneToMany(mappedBy="agency")
 	public List<Account> getAccount() {
