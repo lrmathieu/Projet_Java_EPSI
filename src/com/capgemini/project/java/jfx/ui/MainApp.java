@@ -26,7 +26,10 @@ public class MainApp extends Application {
 			
 			// fenetre Cedric (TransactionsWindow)
 			//Scene scene = new Scene(ControllerBase.loadFxml("TransactionsWindow.fxml", mediator));
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5eef483bd2d98487b3d5aea76e4596d7aed5dd1e
 			// fenetre Raphael (AccountsOverview)
 			//Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
 			
@@ -34,11 +37,11 @@ public class MainApp extends Application {
 			Scene scene = new Scene(ControllerBase.loadFxml("AdvisorsOverview.fxml", mediator));
 
 			// fenetre Bailo (OwnerView)
-			//Scene scene = new Scene(OwnerControllerBase.loadFxml("OwnerView.fxml", mediator));
+			Scene scene = new Scene(ControllerBase.loadFxml("OwnerView.fxml", mediator));
 			
 			
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());		
-			primaryStage.setScene(scene);
+			primaryStage.setScene(scene);		
 			primaryStage.show();
 			
 		} catch(Exception e) {
