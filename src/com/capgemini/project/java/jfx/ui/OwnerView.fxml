@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,12 +28,12 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="379.0" minWidth="0.0" prefWidth="137.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="290.0" minHeight="10.0" prefHeight="249.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="381.0" minHeight="0.0" prefHeight="196.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="290.0" minHeight="10.0" prefHeight="129.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="381.0" minHeight="0.0" prefHeight="316.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="313.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView fx:id="listOwners" prefHeight="236.0" prefWidth="624.0">
+                  <TableView fx:id="listOwners" prefHeight="142.0" prefWidth="617.0">
                     <columns>
                       <TableColumn prefWidth="134.0" text="Name">
                       	<cellValueFactory>
@@ -52,6 +57,37 @@
                         </TableColumn>
                     </columns>
                   </TableView>
+                  <AnchorPane prefHeight="310.0" prefWidth="868.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label layoutX="28.0" layoutY="6.0" text="Date of birth" />
+                        <DatePicker fx:id="dateBirth" layoutX="28.0" layoutY="23.0" onAction="#handleFieldChanged" />
+                        <Label fx:id="errCreated" layoutX="28.0" layoutY="60.0" prefHeight="17.0" prefWidth="840.0" text="Date of birth cannot be empty" textFill="RED" visible="false" />
+                       
+                        <Label layoutX="28.0" layoutY="77.0" text="Name" />
+                        <TextField fx:id="txtLabel" layoutX="28.0" layoutY="94.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="228.0" />
+                          <Label fx:id="errLabel" layoutX="27.0" layoutY="115.0" prefHeight="37.0" prefWidth="230.0" text="Name cannot be empty" textFill="RED" visible="false" />
+                        
+                        <Label layoutX="28.0" layoutY="150.0" text="First Name" />
+                        <TextField fx:id="txtLabelFn" layoutX="28.0" layoutY="167.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="228.0" />
+                         <Label fx:id="errLabelFn" layoutX="27.0" layoutY="190.0" prefHeight="37.0" prefWidth="230.0" text="First Name cannot be empty" textFill="RED" visible="false" />
+                        
+                        <Label layoutX="28.0" layoutY="222.0" text="Phone Number" />
+                        <TextField fx:id="txtLabelPh" layoutX="28.0" layoutY="239.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="228.0" />
+                          <Label fx:id="errLabelPh" layoutX="27.0" layoutY="260.0" prefHeight="37.0" prefWidth="230.0" text="Phone Number cannot be empty" textFill="RED" visible="false" />
+                        
+                        <Button fx:id="btnAdd" layoutX="528.0" layoutY="279.0" mnemonicParsing="false" onAction="#handleBtnAdd" text="Add " />
+                        <Button fx:id="btnNew" layoutX="407.0" layoutY="279.0" mnemonicParsing="false" onAction="#handleBtnNew" prefHeight="37.0" prefWidth="98.0" text="New User" />
+                       
+                        <Label layoutX="315.0" layoutY="6.0" text="Login" />
+                        <TextField fx:id="txtLabelLog" layoutX="315.0" layoutY="25.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="197.0" />
+                       	<Label fx:id="errLabelLog" layoutX="315.0" layoutY="50.0" prefHeight="37.0" prefWidth="230.0" text="Login cannot be empty" textFill="RED" visible="false" />
+                       
+                        <Label layoutX="315.0" layoutY="77.0" text="Password" />                   
+                        <PasswordField fx:id="txtLabelPw" layoutX="315.0" layoutY="94.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="197.0" />
+                        <Label fx:id="errLabelPw" layoutX="315.0" layoutY="120.0" prefHeight="37.0" prefWidth="230.0" text="Password cannot be empty" textFill="RED" visible="false" />
+                         
+                     </children>
+                  </AnchorPane>
                </children>
             </GridPane>
          </content>

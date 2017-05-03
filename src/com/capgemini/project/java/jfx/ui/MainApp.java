@@ -25,17 +25,16 @@ public class MainApp extends Application {
 			this.mediator = new Mediator( this.emf );
 			
 			// fenetre Cedric (TransactionsWindow)
-			Scene scene = new Scene(ControllerBase.loadFxml("TransactionsWindow.fxml", mediator));
-
+			//Scene scene = new Scene(ControllerBase.loadFxml("TransactionsWindow.fxml", mediator));
 			// fenetre Raphael (AccountsOverview)
 			//Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
 
 			// fenetre Bailo (OwnerView)
-			//Scene scene = new Scene(OwnerControllerBase.loadFxml("OwnerView.fxml", mediator));
+			Scene scene = new Scene(ControllerBase.loadFxml("OwnerView.fxml", mediator));
 			
 			
 			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());		
-			primaryStage.setScene(scene);
+			primaryStage.setScene(scene);		
 			primaryStage.show();
 			
 		} catch(Exception e) {
