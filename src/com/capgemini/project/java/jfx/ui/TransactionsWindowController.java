@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
+import javax.persistence.TypedQuery;
 
 import com.capgemini.project.java.jfx.biz.PeriodicTransaction;
 import com.capgemini.project.java.jfx.biz.Account;
@@ -76,6 +77,7 @@ public class TransactionsWindowController extends ControllerBase{
 			List<PeriodicTransaction> transactions = em.createNamedQuery(
 					"PeriodicTransaction.findAll", PeriodicTransaction.class
 			).getResultList();
+			//List<PeriodicTransaction> transactions = em.createQuery("SELECT t FROM PeriodicTransaction t").getResultList();
 			List<TransactionType> transactiontypes = em.createNamedQuery(
 					"TransactionType.findAll", TransactionType.class
 			).getResultList();
@@ -207,32 +209,33 @@ public class TransactionsWindowController extends ControllerBase{
 	}
 	
 	private boolean updateForm(PeriodicTransaction newTransaction) {
-		this.resetErrors();
-		if(this.dirty) {
-			Alert alert  = new Alert(AlertType.CONFIRMATION, 
-					"The transaction is modified. Save the modifications?", 
-					ButtonType.YES, ButtonType.NO, ButtonType.CANCEL
-			);
-			alert.showAndWait();
-			
-			ButtonType result = alert.getResult();			
-			if(result == ButtonType.CANCEL || (result == ButtonType.YES && !this.saveForm())) {
-				return false;				
-			}			
-		}
-		this.cur = newTransaction;
-		this.txtTransaction.setText(this.cur.getWording());
-		this.dateTransaction.setValue(DateUtils.DateToLocalDate(this.cur.getTransactionDate()));
-		this.choiceAccount.setValue(this.cur.getAccount());
-		this.choiceTarget.setValue(this.cur.getTargetTransaction());
-		this.choiceTransactionType.setValue(this.cur.getTransactionType());
-		this.transValue.setText(String.valueOf(this.cur.getTransactionValue()));
-		this.btnNew.setDisable(false);
-		this.btnApply.setDisable(true);
-		this.btnDelete.setDisable(false);
-		this.dirty = false;
-		return true;
+			this.resetErrors();
+			if(this.dirty) {
+				Alert alert  = new Alert(AlertType.CONFIRMATION, 
+						"The transaction is modified. Save the modifications?", 
+						ButtonType.YES, ButtonType.NO, ButtonType.CANCEL
+				);
+				alert.showAndWait();
+				
+				ButtonType result = alert.getResult();			
+				if(result == ButtonType.CANCEL || (result == ButtonType.YES && !this.saveForm())) {
+					return false;				
+				}			
+			}
+			this.cur = newTransaction;
+			this.txtTransaction.setText(this.cur.getWording());
+			this.dateTransaction.setValue(DateUtils.DateToLocalDate(this.cur.getTransactionDate()));
+			this.choiceAccount.setValue(this.cur.getAccount());
+			this.choiceTarget.setValue(this.cur.getTargetTransaction());
+			this.choiceTransactionType.setValue(this.cur.getTransactionType());
+			this.transValue.setText(String.valueOf(this.cur.getTransactionValue()));
+			this.btnNew.setDisable(false);
+			this.btnApply.setDisable(true);
+			this.btnDelete.setDisable(false);
+			this.dirty = false;
+			return true;
 	}
+	
 	private boolean saveForm() {
 		boolean isNew = this.cur.getId()==0;
 		
@@ -286,13 +289,62 @@ public class TransactionsWindowController extends ControllerBase{
 
 			try {					
 				transaction.begin();
-				em.persist(this.cur);
-				transaction.commit();
-				this.dirty = false;
+
 				if(isNew) {
+					//transaction.begin();
+					em.persist(this.cur);
+					transaction.commit();
+					this.dirty = false;
 					transactions.add(this.cur);
 				}
-				else {
+				else {	
+					
+					//transaction.begin();
+					TypedQuery<PeriodicTransaction>queryValTrans = em.createQuery(
+							"UPDATE PeriodicTransaction t SET t.transactionValue=:valTransToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+					queryValTrans.setParameter("valTransToUpdate", this.cur.getTransactionValue());
+					queryValTrans.setParameter("idTransToUpdate", this.cur.getId());
+					TypedQuery<PeriodicTransaction>querydatTrans = em.createQuery(
+							"UPDATE PeriodicTransaction t SET t.transactionDate=:dateTransToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+					querydatTrans.setParameter("dateTransToUpdate", this.cur.getTransactionDate());
+					querydatTrans.setParameter("idTransToUpdate", this.cur.getId());
+					TypedQuery<PeriodicTransaction>queryEndDatTrans = em.createQuery(
+							"UPDATE PeriodicTransaction t SET t.endDateTransaction=:endDateTransToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+					queryEndDatTrans.setParameter("endDateTransToUpdate", this.cur.getEndDateTransaction());
+					queryEndDatTrans.setParameter("idTransToUpdate", this.cur.getId());
+					TypedQuery<PeriodicTransaction>queryDayNum = em.createQuery(
+							"UPDATE PeriodicTransaction t SET t.dayNumber=:dayNumberToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+					queryDayNum.setParameter("dayNumberToUpdate", this.cur.getDayNumber());
+					queryDayNum.setParameter("idTransToUpdate", this.cur.getId());
+					TypedQuery<PeriodicTransaction>queryWord = em.createQuery(
+							"UPDATE PeriodicTransaction t SET t.wording=:wordingToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+					queryWord.setParameter("wordingToUpdate", this.cur.getWording());
+					queryWord.setParameter("idTransToUpdate", this.cur.getId());
+//					TypedQuery<PeriodicTransaction>queryTarTrans = em.createQuery(
+//							"UPDATE PeriodicTransaction t SET t.TargetTransaction=:targetTransToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+//					queryTarTrans.setParameter("targetTransToUpdate", this.cur.getTargetTransaction());
+//					queryTarTrans.setParameter("idTransToUpdate", this.cur.getId());
+//					TypedQuery<PeriodicTransaction>queryTypTrans = em.createQuery(
+//							"UPDATE PeriodicTransaction t SET t.idTypeTransaction=:typeTransToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+//					queryTypTrans.setParameter("typeTransToUpdate", this.cur.getTransactionType().getId());
+//					queryTypTrans.setParameter("idTransToUpdate", this.cur.getId());
+//					TypedQuery<PeriodicTransaction>queryAcc = em.createQuery(
+//							"UPDATE PeriodicTransaction t SET t.idAccount=:accountToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+//					queryAcc.setParameter("accountToUpdate", this.cur.getAccount().getId());
+//					queryAcc.setParameter("idTransToUpdate", this.cur.getId());
+					
+					queryValTrans.executeUpdate();
+					querydatTrans.executeUpdate();
+					queryEndDatTrans.executeUpdate();
+					queryDayNum.executeUpdate();
+					queryWord.executeUpdate();
+//					queryTarTrans.executeUpdate();
+//					queryTypTrans.executeUpdate();
+//					queryAcc.executeUpdate();
+					
+					transaction.commit();
+				
+					this.dirty = false;
 					transactions.set(transactions.indexOf(this.cur), this.cur);
 				}
 			}

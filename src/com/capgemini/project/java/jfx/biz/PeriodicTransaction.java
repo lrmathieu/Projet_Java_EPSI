@@ -178,5 +178,9 @@ public class PeriodicTransaction implements Serializable {
 	public void setTransactionType(TransactionType transactiontype) {
 		this.transactiontype = transactiontype;
 	}
+	
+//	public String getAccountName(){
+//		return this.account.getTypeDescription();
+//	}
 
 }

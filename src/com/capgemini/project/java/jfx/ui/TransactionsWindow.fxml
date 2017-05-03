@@ -34,7 +34,7 @@
                       <TableColumn fx:id="dateTransColumn" prefWidth="70.0" text="Date">
                       	<cellValueFactory><PropertyValueFactory property="TransactionDate" /></cellValueFactory>
                       </TableColumn>
-                      <TableColumn fx:id="wordingTransColumn" prefWidth="230.0" text="Transaction">
+                      <TableColumn fx:id="wordingTransColumn" prefWidth="230.0" text="Description">
                       		<cellValueFactory><PropertyValueFactory property="Wording" /></cellValueFactory>
                       </TableColumn>  
                       <TableColumn fx:id="transValueColumn" prefWidth="50.0" text="Value">
