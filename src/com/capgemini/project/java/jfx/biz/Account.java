@@ -221,6 +221,10 @@ public class Account implements Serializable {
 	public void setAgency(Agency agency) {
 		this.agency = agency;
 	}
+	
+	public String getAgencyName() {
+		return this.agency.getName();
+	}
 
 /*
 	//bi-directional many-to-many association to Owner

@@ -28,17 +28,21 @@ public class AccountsOverviewController extends ControllerBase{
 	public void initialize(Mediator mediator) {
 		EntityManager em = mediator.createEntityManager();
 		
+		/*
 		List<Bank> banks = em.createQuery("SELECT b FROM Bank b").getResultList();		
 		// Remplissage du tableview avec banks
 		this.listBanks.setItems(FXCollections.observableList(banks));
+		*/
 		
+		/*
 		List<Agency> agencies = em.createQuery("SELECT a FROM Agency a").getResultList();
-		// Remplissage du tableview avec banks
+		// Remplissage du tableview avec agencies
 		this.listAgencies.setItems(FXCollections.observableList(agencies));
+		*/
 		
 		/*
 		List<Agency> agencies = em.createQuery("SELECT Account.accountNumber, Agency.name FROM Account INNER JOIN Agency ON Account.idAgency = Agency.id").getResultList();
-		// Remplissage du tableview avec banks
+		// Remplissage du tableview avec agencies
 		this.listAgencies.setItems(FXCollections.observableList(agencies));
 		*/
 		
