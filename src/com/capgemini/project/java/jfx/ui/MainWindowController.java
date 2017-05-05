@@ -12,24 +12,26 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MainWindowController extends ControllerBase {
-/*	
-	@Inject
-	private EntityManagerFactory emf;
-*/	
-	@FXML
-	private StackPane content;
+
+	@FXML private StackPane contentAccounts;
+	@FXML private StackPane contentOwner;
+	@FXML private StackPane contentTransactions;
 	
 	@Override
 	public void initialize(Mediator mediator) {
 		try {
-			content.getChildren().setAll(loadFxml("OwnerView.fxml")); // Le mettre dans 'content'
+			contentAccounts.getChildren().setAll(loadFxml("AccountsOverview.fxml"));
+			contentOwner.getChildren().setAll(loadFxml("OwnerView.fxml"));
+			contentTransactions.getChildren().setAll(loadFxml("TransactionsWindow.fxml"));
 		}
 		catch(IOException e) {
 			// TODO alert
