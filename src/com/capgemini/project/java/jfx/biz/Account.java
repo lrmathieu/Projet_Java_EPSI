@@ -27,6 +27,7 @@ public class Account implements Serializable {
 	private int overdraft;
 	private String typeDescription;
 	private CountryCode countryCode;
+	private Agency agency;
 	private List<PeriodicTransaction> periodicTransactions;
 	private List<Owner> owners;
 
@@ -74,7 +75,6 @@ public class Account implements Serializable {
 		return Calendar.getInstance().getTime();
 	}
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -84,7 +84,6 @@ public class Account implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public String getAccountNumber() {
 		return this.accountNumber;
@@ -103,7 +102,6 @@ public class Account implements Serializable {
 		this.alertTreshold = alertTreshold;
 	}
 
-
 	@Temporal(TemporalType.DATE)
 	public Date getCreationDate() {
 		return this.creationDate;
@@ -113,7 +111,6 @@ public class Account implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-
 	public double getFirstTotal() {
 		return this.firstTotal;
 	}
@@ -121,7 +118,6 @@ public class Account implements Serializable {
 	public void setFirstTotal(double firstTotal) {
 		this.firstTotal = firstTotal;
 	}
-
 
 	public int getIdAccountType() {
 		return this.idAccountType;
@@ -131,7 +127,8 @@ public class Account implements Serializable {
 		this.idAccountType = idAccountType;
 	}
 
-
+	// PAS BESOIN SI getAgency avec ManyToOne
+	/*
 	public int getIdAgency() {
 		return this.idAgency;
 	}
@@ -139,7 +136,7 @@ public class Account implements Serializable {
 	public void setIdAgency(int idAgency) {
 		this.idAgency = idAgency;
 	}
-
+	*/
 
 	public double getInterestRate() {
 		return this.interestRate;
@@ -148,7 +145,6 @@ public class Account implements Serializable {
 	public void setInterestRate(double interestRate) {
 		this.interestRate = interestRate;
 	}
-
 
 	public int getOverdraft() {
 		return this.overdraft;
@@ -168,6 +164,17 @@ public class Account implements Serializable {
 	}
 
 
+	//bi-directional many-to-one association to Agency
+	@ManyToOne
+	@JoinColumn(name="idAgency")
+	public Agency getAgency() {
+		return this.agency;
+	}
+
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+	
 	//bi-directional many-to-one association to Countrycode
 	@ManyToOne
 	@JoinColumn(name="idCountryCode")

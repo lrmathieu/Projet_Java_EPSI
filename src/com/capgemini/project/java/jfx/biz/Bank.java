@@ -1,7 +1,29 @@
 package com.capgemini.project.java.jfx.biz;
 
-public class Bank {
+import java.io.Serializable;
+import javax.persistence.*;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * The persistent class for the account database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Bank.findAll", query="SELECT b FROM Bank b")
+public class Bank implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private int id;
+	private String name;
+	private String bankCode;
+	
+	public Bank() {
+		
+	}
+	
 	public Bank(String name, String bankCode) {
 		
 		if ( name.isEmpty() ) {
@@ -11,36 +33,35 @@ public class Bank {
 			throw new IllegalArgumentException("bankCode cannot be empty !");
 		}
 		
-		this.m_name = name;
-		this.m_bankCode = bankCode;
+		this.name = name;
+		this.bankCode = bankCode;
 	}
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
-		return this.m_id;
+		return this.id;
 	}
 	
 	public String getName() {
-		return this.m_name;
+		return this.name;
 	}
 	
 	public String getBankCode() {
-		return this.m_bankCode;
+		return this.bankCode;
 	}
 	
 	public void setId(int id) {
-		this.m_id = id;
+		this.id = id;
 	}
 	
 	public void setName(String name) {
-		this.m_name = name;
+		this.name = name;
 	}
 	
 	public void setBankCode(String bankCode) {
-		this.m_bankCode = bankCode;
+		this.bankCode = bankCode;
 	}
 
-	private int m_id;
-	private String m_name;
-	private String m_bankCode;
 	
 }
