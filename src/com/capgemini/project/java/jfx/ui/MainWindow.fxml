@@ -6,9 +6,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capgemini.project.java.jfx.ui.MainWindowController">
-   <left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capgemini.project.java.jfx.ui.MainWindowController">
+   <center>
       <TabPane prefHeight="400.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Authentification">
@@ -18,23 +17,20 @@
           </Tab>
           <Tab text="OwnerView">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            	<StackPane fx:id="contentOwner"/>
             </content>
           </Tab>
-            <Tab text="TransactionWindow">
+          <Tab text="TransactionWindow">
+          	<content>
+               <StackPane fx:id="contentTransactions"/>
+          	</content>			
+          </Tab>
+          <Tab text="AccountsOverview">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               		<StackPane fx:id="contentAccounts"/>
                </content>
-            </Tab>
-            <Tab text="AccountsOverview">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
+          </Tab>
         </tabs>
       </TabPane>
-   </left>
-   <center>
-      <StackPane fx:id="content" />
    </center>
 </BorderPane>
