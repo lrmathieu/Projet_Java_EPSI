@@ -73,6 +73,9 @@
 	            <ChoiceBox fx:id="choiceTarget" layoutX="25.0" layoutY="187.0" onAction="#handleFieldChanged" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="350.0" />
 	            <Label fx:id="errTargetTrans" layoutX="26.0" layoutY="218.0" prefHeight="17.0" prefWidth="300.0" text="A target must be selected" textFill="RED" visible="false" AnchorPane.topAnchor="382.0"/>
 	            
+	           	<Label layoutX="25.0" layoutY="170.0" text="Credit or Debit?" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="400.0" />
+	            <ChoiceBox fx:id="choiceCreditOrDebit" layoutX="25.0" layoutY="187.0" onAction="#handleFieldChanged" prefHeight="25.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="415.0" />
+	      
 	            <ButtonBar layoutX="27.0" layoutY="544.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
                    <buttons>
                     <Button fx:id="btnDelete" layoutX="528.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBtnDelete" text="Delete" AnchorPane.rightAnchor="172.0" AnchorPane.bottomAnchor="10.0" />

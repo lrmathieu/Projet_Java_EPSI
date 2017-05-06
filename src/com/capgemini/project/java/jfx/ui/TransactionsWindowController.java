@@ -16,7 +16,6 @@ import com.capgemini.project.java.jfx.biz.TargetTransaction;
 import com.capgemini.project.java.jfx.biz.TransactionType;
 import com.capgemini.project.java.jfx.ui.Mediator;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -45,6 +44,7 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private ChoiceBox<TransactionType> choiceTransactionType;
 	@FXML private ChoiceBox<Account> choiceAccount;
 	@FXML private ChoiceBox<TargetTransaction> choiceTarget;
+	@FXML private ChoiceBox<String> choiceCreditOrDebit;
 	@FXML private TextField transValue;
 	@FXML private Button btnApply;
 	@FXML private Button btnDelete;
@@ -94,6 +94,8 @@ public class TransactionsWindowController extends ControllerBase{
 			this.choiceTransactionType.setItems(FXCollections.observableList(transactiontypes));
 			this.listTransactions.setItems(FXCollections.observableList(transactions));			
 			
+			this.choiceCreditOrDebit.setItems(FXCollections.observableArrayList("Debit", "Credit"));
+			this.choiceCreditOrDebit.getSelectionModel().selectFirst();
 			//Platform.runLater(() -> 
 			this.listTransactions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PeriodicTransaction>() {
 				@Override
@@ -277,11 +279,16 @@ public class TransactionsWindowController extends ControllerBase{
 		if(err) {
 			return false;
 		}
+		if(choiceCreditOrDebit.getValue().equals("Debit")){
+			this.cur.setTransactionValue((-1)*Double.parseDouble(this.transValue.getText()));
+		}
+		else{
+			this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
+		}
 		this.cur.setAccount(this.choiceAccount.getValue());
 		this.cur.setTargetTransaction(this.choiceTarget.getValue());
 		this.cur.setTransactionDate(DateUtils.LocalDate2Date(this.dateTransaction.getValue()));
 		this.cur.setTransactionType(this.choiceTransactionType.getValue());
-		this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
 		this.cur.setWording(this.txtTransaction.getText());
 
 		// initialistation des autres champs necessaires. 
