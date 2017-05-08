@@ -159,7 +159,7 @@ public class PeriodicTransaction implements Serializable {
 	
 	//bi-directional many-to-one association to TargetTransaction
 	@ManyToOne //(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="idTargetTransaction")
+	@JoinColumn(nullable=false, name="idTargetTransaction")
 	public TargetTransaction getTargetTransaction() {
 		return this.targettransaction;
 	}

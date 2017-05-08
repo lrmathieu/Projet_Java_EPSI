@@ -1,5 +1,6 @@
 package com.capgemini.project.java.jfx.ui;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private Label errTransType;
 	@FXML private Label errTransValue;
 	@FXML private Label errTxtTrans;
+	@FXML private Label totalTransactions;
 
 	@FXML private TableView<PeriodicTransaction> listTransactions;
 	
@@ -94,8 +96,16 @@ public class TransactionsWindowController extends ControllerBase{
 			this.choiceTransactionType.setItems(FXCollections.observableList(transactiontypes));
 			this.listTransactions.setItems(FXCollections.observableList(transactions));			
 			
+			// Initialization choiceBox for choice between debit or credit with default value = Debit
 			this.choiceCreditOrDebit.setItems(FXCollections.observableArrayList("Debit", "Credit"));
-			this.choiceCreditOrDebit.getSelectionModel().selectFirst();
+			//this.choiceCreditOrDebit.getSelectionModel().selectFirst();
+			
+			// Initialization for total transactions calculation
+			Double sumInitialAmounts = em.createQuery("SELECT SUM(a.firstTotal) FROM Account a", Double.class).getSingleResult();
+			Double sumTransactions = em.createQuery("SELECT SUM(t.transactionValue) FROM PeriodicTransaction t", Double.class).getSingleResult();
+			this.total = sumInitialAmounts + sumTransactions;
+			this.totalTransactions.setText("Amount: " + String.valueOf(total) + " €");
+			
 			//Platform.runLater(() -> 
 			this.listTransactions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PeriodicTransaction>() {
 				@Override
@@ -105,7 +115,7 @@ public class TransactionsWindowController extends ControllerBase{
 			});
 			
 			/**
-			 *  To force the text in the field "transvalue" to be numeric only with a dot:
+			 *  To force the text in the field "transactionValue" to be numeric only with a dot:
 			 */
 		    this.transValue.textProperty().addListener(new ChangeListener<String>() {
 		        @Override
@@ -208,13 +218,16 @@ public class TransactionsWindowController extends ControllerBase{
      */
 	@FXML
 	private void handleBtnNew(ActionEvent event) {
-		//Platform.runLater(() -> 
 		this.listTransactions.getSelectionModel().select(null); // indirectly calls updateForm(new PeriodicTransaction())
-		//);
 		this.btnNew.setDisable(true);
 		this.btnDelete.setDisable(true);
 	}
 	
+	/**
+     * Check if a Periodic Transaction is updated or not
+     * @param a PeriodicTransaction newTransaction
+     * @return a boolean true or false
+     */
 	private boolean updateForm(PeriodicTransaction newTransaction) {
 			this.resetErrors();
 			if(this.dirty) {
@@ -233,11 +246,21 @@ public class TransactionsWindowController extends ControllerBase{
 
 			}
 			this.cur = newTransaction;
+			if(this.cur.getTransactionValue()>0){
+				this.choiceCreditOrDebit.getSelectionModel().select(1);
+			}
+			else{
+				this.choiceCreditOrDebit.getSelectionModel().selectFirst();
+			}
+			
 			this.txtTransaction.setText(this.cur.getWording());
 			this.dateTransaction.setValue(DateUtils.DateToLocalDate(this.cur.getTransactionDate()));
 			this.choiceAccount.setValue(this.cur.getAccount());
 			this.choiceTarget.setValue(this.cur.getTargetTransaction());
 			this.choiceTransactionType.setValue(this.cur.getTransactionType());
+			//this.total += this.cur.getTransactionValue();
+			//this.totalTransactions.setText("Amount: " + String.valueOf(this.total) + " €");
+			
 			this.transValue.setText(String.valueOf(this.cur.getTransactionValue()));
 			this.btnNew.setDisable(false);
 			this.btnApply.setDisable(true);
@@ -279,12 +302,17 @@ public class TransactionsWindowController extends ControllerBase{
 		if(err) {
 			return false;
 		}
-		if(choiceCreditOrDebit.getValue().equals("Debit")){
-			this.cur.setTransactionValue((-1)*Double.parseDouble(this.transValue.getText()));
-		}
-		else{
-			this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
-		}
+//		if(choiceCreditOrDebit.getValue().equals("Debit")){
+//			this.cur.setTransactionValue((-1)*Double.parseDouble(this.transValue.getText()));
+//		}
+//		if(choiceCreditOrDebit.getValue().equals("Credit")){
+//			this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
+//		}
+//		this.total += this.cur.getTransactionValue();
+//		this.totalTransactions.setText("Amount: " + String.valueOf(this.total) + " €");
+
+		setTextTotalTransactions(this.transValue.getText());
+		
 		this.cur.setAccount(this.choiceAccount.getValue());
 		this.cur.setTargetTransaction(this.choiceTarget.getValue());
 		this.cur.setTransactionDate(DateUtils.LocalDate2Date(this.dateTransaction.getValue()));
@@ -293,8 +321,11 @@ public class TransactionsWindowController extends ControllerBase{
 
 		// initialistation des autres champs necessaires. 
 		// Ils seront de valeur fixe pour le moment
-		this.cur.setDayNumber(2);
 		this.cur.setEndDateTransaction(this.cur.getTransactionDate());
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.cur.getEndDateTransaction());
+		this.cur.setDayNumber(cal.get(Calendar.DAY_OF_MONTH));
+		
 		this.cur.setIdCategory(1);
 		this.cur.setIdFrequency(1);
 
@@ -317,33 +348,23 @@ public class TransactionsWindowController extends ControllerBase{
 						+ "SET t.wording=:wordingToUpdate,"
 							+ "t.transactionValue=:valTransToUpdate,"
 							+ "t.dayNumber=:dayNumberToUpdate,"
-							+ "t.transactionDate=:dateTransToUpdate, "
+							+ "t.transactionDate=:dateTransToUpdate,"
 							+ "t.endDateTransaction=:endDateTransToUpdate "	
-						+ "WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
+							+ "WHERE t.id=:idTransToUpdate", 
+							PeriodicTransaction.class);
 					query.setParameter("wordingToUpdate", this.cur.getWording());
 					query.setParameter("valTransToUpdate", this.cur.getTransactionValue());
 					query.setParameter("dayNumberToUpdate", this.cur.getDayNumber());
 					query.setParameter("dateTransToUpdate", this.cur.getTransactionDate());
 					query.setParameter("endDateTransToUpdate", this.cur.getEndDateTransaction());
 					query.setParameter("idTransToUpdate", this.cur.getId());				
-					
 					query.executeUpdate();
-//					TypedQuery<PeriodicTransaction>queryTarTrans = em.createQuery(
-//							"UPDATE PeriodicTransaction t SET t.getTargetTransaction=:targetTransToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
-//					queryTarTrans.setParameter("targetTransToUpdate", this.cur.getTargetTransaction());
-//					queryTarTrans.setParameter("idTransToUpdate", this.cur.getId());
-//					TypedQuery<PeriodicTransaction>queryTypTrans = em.createQuery(
-//							"UPDATE PeriodicTransaction t SET t.idTypeTransaction=:typeTransToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
-//					queryTypTrans.setParameter("typeTransToUpdate", this.cur.getTransactionType().getId());
-//					queryTypTrans.setParameter("idTransToUpdate", this.cur.getId());
-//					TypedQuery<PeriodicTransaction>queryAcc = em.createQuery(
-//							"UPDATE PeriodicTransaction t SET t.idAccount=:accountToUpdate WHERE t.id=:idTransToUpdate", PeriodicTransaction.class);
-//					queryAcc.setParameter("accountToUpdate", this.cur.getAccount().getId());
-//					queryAcc.setParameter("idTransToUpdate", this.cur.getId());
 					
-//					queryTarTrans.executeUpdate();
-//					queryTypTrans.executeUpdate();
-//					queryAcc.executeUpdate();
+					this.cur.setAccount(this.choiceAccount.getValue());
+					this.cur.setTargetTransaction(this.choiceTarget.getValue());
+					this.cur.setTransactionType(this.choiceTransactionType.getValue());
+					
+					setTextTotalTransactions(this.transValue.getText());
 					
 					transaction.commit();
 					
@@ -387,8 +408,20 @@ public class TransactionsWindowController extends ControllerBase{
             return false;
         }
     }
+    
+    private void setTextTotalTransactions(String valueInChoiceBox){
+		if(choiceCreditOrDebit.getValue().equals("Debit")){
+			this.cur.setTransactionValue((-1)*Double.parseDouble(valueInChoiceBox));
+		}
+		if(choiceCreditOrDebit.getValue().equals("Credit")){
+			this.cur.setTransactionValue(Double.parseDouble(valueInChoiceBox));
+		}
+		this.total += this.cur.getTransactionValue();
+		this.totalTransactions.setText("Amount: " + String.valueOf(this.total) + " €");
+    }
 	    
 	private PeriodicTransaction cur = null;
 	private boolean dirty = false;
+	private Double total;
 	
 }
