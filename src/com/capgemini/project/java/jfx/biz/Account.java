@@ -17,6 +17,7 @@ import java.util.List;
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private String typeDescription;
 	private String accountNumber;
 	private double alertTreshold;
 	private Date creationDate;
@@ -25,42 +26,23 @@ public class Account implements Serializable {
 	private int idAgency;
 	private double interestRate;
 	private int overdraft;
-	private String typeDescription;
 	private CountryCode countryCode;
 	private Agency agency;
 	private List<PeriodicTransaction> periodicTransactions;
 	private List<Owner> owners;
+	private Agency agency;
 
 	public Account() {
 	}
+	
 	public Account(String typeDescription, String accountNumber, Date creationDate,
 			double firstTotal, int overdraft, double interestRate, double alertTreshold) {
 		
-		if ( typeDescription==null ) {
-			throw new NullPointerException("typeDescription cannot be null !");
-		}
-		if ( accountNumber==null ) {
-			throw new NullPointerException("accountNumber cannot be null !");
-		}
-		if ( creationDate==null ) {
-			throw new NullPointerException("created cannot be null !");
-		}
-		if ( creationDate.getTime() > today().getTime() ) {
-			throw new IllegalArgumentException("created cannot be in the future !");
-		}
-		if ( firstTotal<0.0 ) {
-			throw new IllegalArgumentException("firstTotal must be strictly positive !");
-		}
-		if ( overdraft>0 ) {
-			throw new IllegalArgumentException("overdraft cannot be strictly positive !");
-		}
-		if ( interestRate<0.0 ) {
-			throw new IllegalArgumentException("interestRate cannot be strictly negative !");
-		}
-		if ( interestRate>100.0 ) {
-			throw new IllegalArgumentException("interestRate cannot be greater than 100 !");
-		}
-		
+		checkTypeDescription(typeDescription);
+		checkAccountNumber(accountNumber);
+		checkCreationDate(creationDate);
+		checkFirstTotal(firstTotal);
+		checkInterestRate(interestRate);
 		
 		this.typeDescription = typeDescription;
 		this.accountNumber = accountNumber;
@@ -69,6 +51,42 @@ public class Account implements Serializable {
 		this.overdraft = overdraft;
 		this.interestRate = interestRate;
 		this.alertTreshold = alertTreshold;
+	}
+	
+	private void checkTypeDescription(String typeDescription) {
+		if ( typeDescription==null ) {
+			throw new NullPointerException("typeDescription cannot be null !");
+		}
+	}
+	
+	private void checkAccountNumber(String accountNumber) {
+		if ( accountNumber==null ) {
+			throw new NullPointerException("accountNumber cannot be null !");
+		}
+	}
+	
+	private void checkCreationDate(Date creationDate) {
+		if ( creationDate==null ) {
+			throw new NullPointerException("created cannot be null !");
+		}
+		if ( creationDate.getTime() > today().getTime() ) {
+			throw new IllegalArgumentException("created cannot be in the future !");
+		}
+	}
+	
+	private void checkFirstTotal(double firstTotal) {
+		if ( firstTotal<0.0 ) {
+			throw new IllegalArgumentException("firstTotal must be strictly positive !");
+		}
+	}
+		
+	private void checkInterestRate(double interestRate) {
+		if ( interestRate<0.0 ) {
+			throw new IllegalArgumentException("interestRate cannot be strictly negative !");
+		}
+		if ( interestRate>100.0 ) {
+			throw new IllegalArgumentException("interestRate cannot be greater than 100 !");
+		}
 	}
 	
 	private Date today() {
@@ -85,14 +103,28 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
+<<<<<<< HEAD
+=======
+	public String getTypeDescription() {
+		return this.typeDescription;
+	}
+
+	public void setTypeDescription(String typeDescription) {
+		checkTypeDescription(typeDescription);
+		this.typeDescription = typeDescription;
+	}
+	
+>>>>>>> ajoutBanque
 	public String getAccountNumber() {
 		return this.accountNumber;
 	}
 
 	public void setAccountNumber(String accountNumber) {
+		checkAccountNumber(accountNumber);
 		this.accountNumber = accountNumber;
 	}
 
+<<<<<<< HEAD
 
 	public double getAlertTreshold() {
 		return this.alertTreshold;
@@ -102,12 +134,15 @@ public class Account implements Serializable {
 		this.alertTreshold = alertTreshold;
 	}
 
+=======
+>>>>>>> ajoutBanque
 	@Temporal(TemporalType.DATE)
 	public Date getCreationDate() {
 		return this.creationDate;
 	}
 
 	public void setCreationDate(Date creationDate) {
+		checkCreationDate(creationDate);
 		this.creationDate = creationDate;
 	}
 
@@ -116,6 +151,7 @@ public class Account implements Serializable {
 	}
 
 	public void setFirstTotal(double firstTotal) {
+		checkFirstTotal(firstTotal);
 		this.firstTotal = firstTotal;
 	}
 
@@ -127,7 +163,10 @@ public class Account implements Serializable {
 		this.idAccountType = idAccountType;
 	}
 
+<<<<<<< HEAD
 	// PAS BESOIN SI getAgency avec ManyToOne
+=======
+>>>>>>> ajoutBanque
 	/*
 	public int getIdAgency() {
 		return this.idAgency;
@@ -138,6 +177,7 @@ public class Account implements Serializable {
 	}
 	*/
 
+<<<<<<< HEAD
 	public double getInterestRate() {
 		return this.interestRate;
 	}
@@ -146,6 +186,8 @@ public class Account implements Serializable {
 		this.interestRate = interestRate;
 	}
 
+=======
+>>>>>>> ajoutBanque
 	public int getOverdraft() {
 		return this.overdraft;
 	}
@@ -154,15 +196,22 @@ public class Account implements Serializable {
 		this.overdraft = overdraft;
 	}
 
-
-	public String getTypeDescription() {
-		return this.typeDescription;
+	public double getInterestRate() {
+		return this.interestRate;
 	}
 
-	public void setTypeDescription(String typeDescription) {
-		this.typeDescription = typeDescription;
+	public void setInterestRate(double interestRate) {
+		checkInterestRate(interestRate);
+		this.interestRate = interestRate;
+	}
+	
+	public double getAlertTreshold() {
+		return this.alertTreshold;
 	}
 
+	public void setAlertTreshold(double alertTreshold) {
+		this.alertTreshold = alertTreshold;
+	}
 
 	//bi-directional many-to-one association to Agency
 	@ManyToOne
@@ -185,7 +234,6 @@ public class Account implements Serializable {
 	public void setCountrycode(CountryCode countrycode) {
 		this.countryCode = countrycode;
 	}
-
 
 	//bi-directional many-to-one association to PeriodicTransaction
 	@OneToMany(mappedBy="account")
@@ -216,9 +264,29 @@ public class Account implements Serializable {
 		
 	}
 	
+<<<<<<< HEAD
 	@Override
 	public String toString() {
 		return this.typeDescription;
+=======
+	//bi-directional many-to-one association to Agency
+	@ManyToOne
+	@JoinColumn(name="idAgency")
+	public Agency getAgency() {
+		return this.agency;
+	}
+	
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+	
+	public String getAgencyName() {
+		return this.agency.getName();
+	}
+	
+	public String getBankName() {
+		return this.agency.getBankName();
+>>>>>>> ajoutBanque
 	}
 
 /*
