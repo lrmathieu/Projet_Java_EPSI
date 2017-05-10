@@ -17,33 +17,9 @@ public class MainApp extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-<<<<<<< HEAD
-		try {
-			this.emf = Persistence.createEntityManagerFactory("Projet_Java_EPSI");
-			this.mediator = new Mediator( this.emf );
-			
-			// fenetre Cedric (TransactionsWindow)
-			//Scene scene = new Scene(ControllerBase.loadFxml("TransactionsWindow.fxml", mediator));
-			// fenetres Raphael (AccountsOverview)
-			//Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
-			//Scene scene = new Scene(ControllerBase.loadFxml("AdvisorsOverview.fxml", mediator));
-			// fenetre Bailo (OwnerView)
-			//Scene scene = new Scene(ControllerBase.loadFxml("OwnerView.fxml", mediator));
-=======
 		try {		
 			this.emf = Persistence.createEntityManagerFactory("Projet_Java_EPSI");
 			this.mediator = new Mediator( this.emf );
-			
-			//Scene scene = new Scene(OwnerControllerBase.loadFxml("OwnerView.fxml", mediator));
-			Scene scene = new Scene(ControllerBase.loadFxml("AccountsOverview.fxml", mediator));
-			primaryStage.setScene(scene);
-			primaryStage.show();
-			
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
->>>>>>> ajoutBanque
-			
-			//Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));     
-		    //Scene scene = new Scene(root);
 			
 			Scene scene = new Scene(ControllerBase.loadFxml("MainWindow.fxml", mediator));
 		
@@ -51,7 +27,8 @@ public class MainApp extends Application {
 			primaryStage.setScene(scene);		
 			primaryStage.show();
 			
-		} catch(Exception e) {
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
