@@ -30,7 +30,6 @@ public class Account implements Serializable {
 	private Agency agency;
 	private List<PeriodicTransaction> periodicTransactions;
 	private List<Owner> owners;
-	private Agency agency;
 
 	public Account() {
 	}
@@ -103,8 +102,6 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
-<<<<<<< HEAD
-=======
 	public String getTypeDescription() {
 		return this.typeDescription;
 	}
@@ -114,7 +111,6 @@ public class Account implements Serializable {
 		this.typeDescription = typeDescription;
 	}
 	
->>>>>>> ajoutBanque
 	public String getAccountNumber() {
 		return this.accountNumber;
 	}
@@ -124,18 +120,6 @@ public class Account implements Serializable {
 		this.accountNumber = accountNumber;
 	}
 
-<<<<<<< HEAD
-
-	public double getAlertTreshold() {
-		return this.alertTreshold;
-	}
-
-	public void setAlertTreshold(double alertTreshold) {
-		this.alertTreshold = alertTreshold;
-	}
-
-=======
->>>>>>> ajoutBanque
 	@Temporal(TemporalType.DATE)
 	public Date getCreationDate() {
 		return this.creationDate;
@@ -163,31 +147,6 @@ public class Account implements Serializable {
 		this.idAccountType = idAccountType;
 	}
 
-<<<<<<< HEAD
-	// PAS BESOIN SI getAgency avec ManyToOne
-=======
->>>>>>> ajoutBanque
-	/*
-	public int getIdAgency() {
-		return this.idAgency;
-	}
-
-	public void setIdAgency(int idAgency) {
-		this.idAgency = idAgency;
-	}
-	*/
-
-<<<<<<< HEAD
-	public double getInterestRate() {
-		return this.interestRate;
-	}
-
-	public void setInterestRate(double interestRate) {
-		this.interestRate = interestRate;
-	}
-
-=======
->>>>>>> ajoutBanque
 	public int getOverdraft() {
 		return this.overdraft;
 	}
@@ -264,20 +223,9 @@ public class Account implements Serializable {
 		
 	}
 	
-<<<<<<< HEAD
 	@Override
 	public String toString() {
 		return this.typeDescription;
-=======
-	//bi-directional many-to-one association to Agency
-	@ManyToOne
-	@JoinColumn(name="idAgency")
-	public Agency getAgency() {
-		return this.agency;
-	}
-	
-	public void setAgency(Agency agency) {
-		this.agency = agency;
 	}
 	
 	public String getAgencyName() {
@@ -286,7 +234,6 @@ public class Account implements Serializable {
 	
 	public String getBankName() {
 		return this.agency.getBankName();
->>>>>>> ajoutBanque
 	}
 
 /*
