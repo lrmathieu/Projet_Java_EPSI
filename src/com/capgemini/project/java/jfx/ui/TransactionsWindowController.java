@@ -136,15 +136,27 @@ public class TransactionsWindowController extends ControllerBase{
 		handleBtnNew(null);
 	}
 	
+    /**
+     * When the user set new text in text fields
+     * @param event
+     */
 	@FXML
 	private void handleTextChanged(KeyEvent event) {
 		this.fieldChanged();
 	}
 	
+    /**
+     * When the user set new field in boxes fields
+     * @param event
+     */
 	@FXML
 	private void handleFieldChanged(ActionEvent event) {
 		this.fieldChanged();
 	}
+	
+    /**
+     * When a field is changed
+     */
 	private void fieldChanged() {
 		this.resetErrors();
 		this.dirty = true;
@@ -409,6 +421,10 @@ public class TransactionsWindowController extends ControllerBase{
         }
     }
     
+	/**
+     * Set the correct transaction value depends if it is a credit or a debit
+     * @param valueInChoiceBox a String 
+     */
     private void setTextTotalTransactions(String valueInChoiceBox){
 		if(choiceCreditOrDebit.getValue().equals("Debit")){
 			this.cur.setTransactionValue((-1)*Double.parseDouble(valueInChoiceBox));
@@ -418,6 +434,10 @@ public class TransactionsWindowController extends ControllerBase{
 		}
 		this.total += this.cur.getTransactionValue();
 		this.totalTransactions.setText("Amount: " + String.valueOf(this.total) + " €");
+    }
+    
+    public void setNewChoiceInTargetsTransactions(TargetTransaction t){
+    	choiceTarget.setValue(t);
     }
 	    
 	private PeriodicTransaction cur = null;

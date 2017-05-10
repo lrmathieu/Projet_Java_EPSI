@@ -20,16 +20,27 @@
             	<StackPane fx:id="contentOwner"/>
             </content>
           </Tab>
+          <Tab text="AccountsOverview">
+             <content>
+               	<StackPane fx:id="contentAccounts"/>
+             </content>
+          </Tab>
+          <Tab text="AdvisorsOverview">
+             <content>
+               	<StackPane fx:id="contentAdvisors"/>
+             </content>
+          </Tab>
+          <Tab text="TargetTransactions">
+          	<content>
+               <StackPane fx:id="contentTargetTransactions"/>
+          	</content>			
+          </Tab>
           <Tab text="TransactionWindow">
           	<content>
                <StackPane fx:id="contentTransactions"/>
           	</content>			
           </Tab>
-          <Tab text="AccountsOverview">
-               <content>
-               		<StackPane fx:id="contentAccounts"/>
-               </content>
-          </Tab>
+ 
         </tabs>
       </TabPane>
    </center>

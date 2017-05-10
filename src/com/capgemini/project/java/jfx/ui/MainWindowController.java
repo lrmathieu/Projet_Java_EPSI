@@ -23,14 +23,18 @@ import javafx.stage.Stage;
 public class MainWindowController extends ControllerBase {
 
 	@FXML private StackPane contentAccounts;
+	@FXML private StackPane contentAdvisors;
 	@FXML private StackPane contentOwner;
+	@FXML private StackPane contentTargetTransactions;
 	@FXML private StackPane contentTransactions;
 	
 	@Override
 	public void initialize(Mediator mediator) {
 		try {
 			contentAccounts.getChildren().setAll(loadFxml("AccountsOverview.fxml"));
+			contentAdvisors.getChildren().setAll(loadFxml("AdvisorsOverview.fxml"));
 			contentOwner.getChildren().setAll(loadFxml("OwnerView.fxml"));
+			contentTargetTransactions.getChildren().setAll(loadFxml("TargetTransactionEdit.fxml"));
 			contentTransactions.getChildren().setAll(loadFxml("TransactionsWindow.fxml"));
 		}
 		catch(IOException e) {
