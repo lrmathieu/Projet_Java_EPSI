@@ -2,8 +2,8 @@ package com.capgemini.project.java.jfx.biz;
 
 import java.io.Serializable;
 import javax.persistence.*;
-<<<<<<< HEAD
-=======
+import java.util.Calendar;
+import java.util.Date;
 
 import java.util.List;
 
@@ -21,28 +21,6 @@ public class Bank implements Serializable {
 	private String name;
 	private String bankCode;
 	private List<Agency> agencyList;
-	
-	public Bank() {
-		
-	}
->>>>>>> ajoutBanque
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-/**
- * The persistent class for the account database table.
- * 
- */
-@Entity
-@NamedQuery(name="Bank.findAll", query="SELECT b FROM Bank b")
-public class Bank implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-	private int id;
-	private String name;
-	private String bankCode;
 	
 	public Bank() {
 		
@@ -74,6 +52,10 @@ public class Bank implements Serializable {
 	public String getBankCode() {
 		return this.bankCode;
 	}
+
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
 	
 	public void setId(int id) {
 		this.id = id;
@@ -81,14 +63,6 @@ public class Bank implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public void setBankCode(String bankCode) {
-		this.bankCode = bankCode;
-<<<<<<< HEAD
-	}
-
-=======
 	}
 	
 	//bi-directional many-to-one association to PeriodicTransaction
@@ -101,7 +75,5 @@ public class Bank implements Serializable {
 		this.agencyList = agencyList;
 	}
 
-	
->>>>>>> ajoutBanque
 	
 }

@@ -23,10 +23,7 @@ public class Agency implements Serializable {
 	private int idAddress;
 	private Bank bank;
 	private List<Account> accountList;
-<<<<<<< HEAD
 	private List<Advisor> advisorList;
-=======
->>>>>>> ajoutBanque
 	
 	public Agency() {
 		
@@ -100,14 +97,11 @@ public class Agency implements Serializable {
 	public void setBank(Bank bank) {
 		this.bank = bank;
 	}
-	
-<<<<<<< HEAD
-=======
+
 	public String getBankName() {
 		return this.bank.getName();
 	}
-	
->>>>>>> ajoutBanque
+
 	//bi-directional one-to-many association to Account
 	@OneToMany(mappedBy="agency")
 	public List<Account> getAccount() {
@@ -116,21 +110,14 @@ public class Agency implements Serializable {
 
 	public void setAccount(List<Account> accountList) {
 		this.accountList = accountList;
-<<<<<<< HEAD
 	}	
-	
-=======
-	}
-	
-	/*
->>>>>>> ajoutBanque
+
 	//bi-directional one-to-many association to Advisor
 	@OneToMany(mappedBy="agency")
 	public List<Advisor> getAdvisor() {
 		return this.advisorList;
 	}
 
-<<<<<<< HEAD
 	public void setAdvisor(List<Advisor> advisorList) {
 		this.advisorList = advisorList;
 	}
@@ -139,13 +126,6 @@ public class Agency implements Serializable {
 	public String toString() {
 		return this.name;
 	}
-=======
-	public void setAdvisor(List<Avisor> advisorList) {
-		this.advisorList = advisorList;
-	}
-	*/
->>>>>>> ajoutBanque
-		
-	
 
+	
 }
