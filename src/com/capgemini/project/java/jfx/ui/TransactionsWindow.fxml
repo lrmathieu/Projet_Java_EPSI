@@ -27,8 +27,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="400.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" text="ACCOUNT TRANSACTIONS DETAILS:" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <font><Font size="14.0" /></font></Label>
+               	  <ChoiceBox fx:id="selectAccount" layoutX="25.0" layoutY="187.0" prefHeight="20.0" prefWidth="300.0" onAction="#handleAccountSelectFieldChanged" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <TableView fx:id="listTransactions" layoutX="33.0" layoutY="57.0" prefHeight="600.0" prefWidth="400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                     <columns>
                       <TableColumn fx:id="dateTransColumn" prefWidth="70.0" text="Date">
@@ -62,7 +61,7 @@
          		
          		<Label layoutX="25.0" layoutY="243.0" text="Transaction Value" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="140.0" />
 	            <TextField fx:id="transValue" layoutX="25.0" layoutY="119.0" onKeyPressed="#handleTextChanged" prefHeight="20.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="155.0" />
-	            <Label fx:id="errTransValue" layoutX="27.0" layoutY="144.0" prefHeight="15.0" prefWidth="300.0" text="The value is invalid, must be a positive double and not empty" textFill="RED" visible="false" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="183.0" />
+	            <Label fx:id="errTransValue" layoutX="27.0" layoutY="144.0" prefHeight="15.0" prefWidth="300.0" text="Invalid value. Value must be a positive double and not empty" textFill="RED" visible="false" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="183.0" />
 	           
 	            <Label layoutX="25.0" layoutY="170.0" text="Transaction Type" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="205.0" />
 	            <ChoiceBox fx:id="choiceTransactionType" layoutX="25.0" layoutY="187.0" onAction="#handleFieldChanged" prefHeight="20.0" prefWidth="300.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="220.0" />
