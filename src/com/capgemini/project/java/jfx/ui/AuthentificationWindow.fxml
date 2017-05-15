@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capgemini.project.java.jfx.ui.AuthentifController"> 
+   <children>
+      <TitledPane alignment="CENTER" animated="false" contentDisplay="CENTER" layoutX="-1.0" layoutY="50.0" prefHeight="550.0" prefWidth="800.0" text="My Personnal Bank" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+         <font>
+           <Font name="Vivaldi Italic" size="48.0" />
+         </font>
+         <content>
+            <GridPane prefHeight="509.0" prefWidth="798.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="754.0" minWidth="10.0" prefWidth="720.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="379.0" minWidth="0.0" prefWidth="2.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="290.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="381.0" minHeight="0.0" prefHeight="343.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="313.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <AnchorPane prefHeight="328.0" prefWidth="671.0" GridPane.rowIndex="1">
+                     <children>
+                     
+                        
+                        
+                        
+                        <Button fx:id="btnSign" layoutX="488.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleBtnSign" prefHeight="49.0" prefWidth="102.0" text="Sign in" />
+                        <Button fx:id="btnCancel" layoutX="342.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleBtnCancel" prefHeight="49.0" prefWidth="100.0" text="Cancel" />
+                       
+                        <Label layoutX="350.0" layoutY="101.0" text="Login">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <TextField fx:id="txtLabelLogin" layoutX="350.0" layoutY="123.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="197.0" />
+                       	<Label fx:id="errLabelLogin" layoutX="350.0" layoutY="162.0" prefHeight="37.0" prefWidth="230.0" text="Login cannot be empty" textFill="RED" visible="false" />
+                       
+                        <Label layoutX="350.0" layoutY="190.0" text="Password">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>                   
+                        <PasswordField fx:id="txtLabelPwd" layoutX="350.0" layoutY="212.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="197.0" />
+                        <Label fx:id="errLabelPwd" layoutX="350.0" layoutY="250.0" prefHeight="37.0" prefWidth="230.0" text="Password cannot be empty" textFill="RED" visible="false" />
+                         <Label fx:id="errLabel" layoutX="315.0" layoutY="41.0" prefHeight="60.0" prefWidth="300.0" text="Login or Password incorrect" textFill="RED" visible="false">
+                         	 <font>
+            					<Font name="Vivaldi Italic" size="30.0" />
+         					</font>
+     					 </Label>
+     					 
+     					 <Label fx:id="welcomeLabel" layoutX="133.0" layoutY="-35.0" prefHeight="60.0" prefWidth="417.0" text="Welcome to my personnal bank" textAlignment="CENTER" textFill="GREEN" visible="false">
+                         	 <font>
+            					<Font name="Vivaldi Italic" size="40.0" />
+         					</font>
+     					 </Label>
+     					 
+     					 <Label fx:id="signLabel" layoutX="222.0" layoutY="6.0" prefHeight="60.0" prefWidth="417.0" text="Sign in  to my personnal bank" textAlignment="CENTER" textFill="GREEN" visible="true">
+                         	 <font>
+            					<Font name="Vivaldi Italic" size="30.0" />
+         					</font>
+     					 </Label>
+                         	
+                        
+                         
+                     </children>
+                  </AnchorPane>
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+   </children>
+</AnchorPane>
