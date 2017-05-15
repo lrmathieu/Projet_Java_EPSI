@@ -27,10 +27,12 @@ public class MainWindowController extends ControllerBase {
 	@FXML private StackPane contentOwner;
 	@FXML private StackPane contentTargetTransactions;
 	@FXML private StackPane contentTransactions;
+	@FXML private StackPane contentAuthentification;
 	
 	@Override
 	public void initialize(Mediator mediator) {
 		try {
+			contentAuthentification.getChildren().setAll(loadFxml("AuthentificationWindow.fxml"));
 			contentAccounts.getChildren().setAll(loadFxml("AccountsOverview.fxml"));
 			contentAdvisors.getChildren().setAll(loadFxml("AdvisorsOverview.fxml"));
 			contentOwner.getChildren().setAll(loadFxml("OwnerView.fxml"));
