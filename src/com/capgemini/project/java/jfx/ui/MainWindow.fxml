@@ -40,6 +40,11 @@
                <StackPane fx:id="contentTransactions"/>
           	</content>			
           </Tab>
+          <Tab text="DetailsTransactionsByAccount">
+          	<content>
+               <StackPane fx:id="contentTransactionsByAccount"/>
+          	</content>			
+          </Tab>
  
         </tabs>
       </TabPane>

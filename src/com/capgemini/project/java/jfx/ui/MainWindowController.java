@@ -28,6 +28,8 @@ public class MainWindowController extends ControllerBase {
 	@FXML private StackPane contentTargetTransactions;
 	@FXML private StackPane contentTransactions;
 	@FXML private StackPane contentAuthentification;
+	@FXML private StackPane contentTransactionsByAccount;
+
 	
 	@Override
 	public void initialize(Mediator mediator) {
@@ -38,6 +40,8 @@ public class MainWindowController extends ControllerBase {
 			contentOwner.getChildren().setAll(loadFxml("OwnerView.fxml"));
 			contentTargetTransactions.getChildren().setAll(loadFxml("TargetTransactionEdit.fxml"));
 			contentTransactions.getChildren().setAll(loadFxml("TransactionsWindow.fxml"));
+			contentTransactionsByAccount.getChildren().setAll(loadFxml("DetailsTransactionsByAccountOverview.fxml"));
+
 		}
 		catch(IOException e) {
 			// TODO alert

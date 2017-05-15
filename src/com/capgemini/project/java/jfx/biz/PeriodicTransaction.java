@@ -19,12 +19,12 @@ public class PeriodicTransaction implements Serializable {
 	private int dayNumber;
 	private Date endDateTransaction;
 	private int idCategory;
-	private int idFrequency;
+	//private int idFrequency;
 	private Date transactionDate;
 	private double transactionValue;
 	private String wording;
 	private Account account;
-	//private Frequency frequency;
+	private Frequency frequency;
 	private TargetTransaction targettransaction;
 	private TransactionType transactiontype;
 
@@ -40,8 +40,8 @@ public class PeriodicTransaction implements Serializable {
 		if(transactionValue<=0d){
 			throw new IllegalArgumentException("transactionValue must be positive");
 		}
-		if(dayNumber<=0 || dayNumber>=28){
-			throw new IllegalArgumentException("dayNumber should be between 1 and 28");
+		if(dayNumber<=0 || dayNumber>31){
+			throw new IllegalArgumentException("dayNumber should be between 1 and 31");
 		}
 		if(dateTransaction == null){
 			throw new NullPointerException("transactionDate cannot be null");
@@ -99,13 +99,13 @@ public class PeriodicTransaction implements Serializable {
 		this.idCategory = idCategory;
 	}
 	
-	public int getIdFrequency() {
+/*	public int getIdFrequency() {
 		return this.idFrequency;
 	}
 
 	public void setIdFrequency(int idFrequency) {
 		this.idFrequency = idFrequency;
-	}
+	}*/
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getTransactionDate() {
@@ -146,16 +146,16 @@ public class PeriodicTransaction implements Serializable {
 		this.account = account;
 	}
 	
-//	//bi-directional many-to-one association to Frequency
-//	@ManyToOne (cascade = CascadeType.PERSIST)
-//	@JoinColumn(name="idFrequency")
-//	public Frequency getFrequency() {
-//		return this.frequency;
-//	}
-//
-//	public void setFrequency(Frequency frequency) {
-//		this.frequency = frequency;
-//	}
+	//bi-directional many-to-one association to Frequency
+	@ManyToOne (cascade = CascadeType.PERSIST)
+	@JoinColumn(name="idFrequency")
+	public Frequency getFrequency() {
+		return this.frequency;
+	}
+
+	public void setFrequency(Frequency frequency) {
+		this.frequency = frequency;
+	}
 	
 	//bi-directional many-to-one association to TargetTransaction
 	@ManyToOne //(cascade = CascadeType.PERSIST)
