@@ -27,7 +27,6 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="400.0">
                <children>
-               	  <ChoiceBox fx:id="selectAccount" layoutX="25.0" layoutY="187.0" prefHeight="20.0" prefWidth="300.0" onAction="#handleAccountSelectFieldChanged" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <TableView fx:id="listTransactions" layoutX="33.0" layoutY="57.0" prefHeight="600.0" prefWidth="400.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                     <columns>
                       <TableColumn fx:id="dateTransColumn" prefWidth="70.0" text="Date">

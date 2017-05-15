@@ -1,5 +1,6 @@
 package com.capgemini.project.java.jfx.ui;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,7 +11,6 @@ import javax.persistence.TypedQuery;
 
 import com.capgemini.project.java.jfx.biz.PeriodicTransaction;
 import com.capgemini.project.java.jfx.biz.TargetTransaction;
-import com.capgemini.project.java.jfx.ui.TransactionsWindowController;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -57,7 +57,7 @@ public class TargetTransactionEditController extends ControllerBase{
 			).getResultList();
 			
 			this.listTargetTransactions.setItems(FXCollections.observableList(targets));			
-						
+		
 			this.listTargetTransactions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TargetTransaction>() {
 				@Override
 				public void changed(ObservableValue<? extends TargetTransaction> arg0, TargetTransaction oldVal, TargetTransaction newVal) {
@@ -235,6 +235,25 @@ public class TargetTransactionEditController extends ControllerBase{
 	private void processPersistenceException(PersistenceException e) {
 		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
 	}
+	
+	/*public ObservableList<TargetTransaction> getListTargets(Mediator mediator){
+		
+		try {
+			EntityManager em = mediator.createEntityManager();
+			
+			List<TargetTransaction> targets = em.createNamedQuery(
+					"TargetTransaction.findAll", TargetTransaction.class
+			).getResultList();
+			
+			this.listTargetTransactions.setItems(FXCollections.observableList(targets));			
+			em.close();	
+		}
+		catch(PersistenceException e) {
+			
+		}
+		return this.listTargetTransactions.getItems();
+		
+	}*/
 
 	private TargetTransaction cur = null;
 	private boolean dirty = false;	

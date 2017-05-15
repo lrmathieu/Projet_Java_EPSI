@@ -21,6 +21,9 @@ public class Frequency implements Serializable {
 	}
 
 	public Frequency(int unit) {
+		if(unit<=0d){
+			throw new IllegalArgumentException("unit must be positive");
+		}
 		this.unit = unit;
 	}
 	
@@ -31,6 +34,9 @@ public class Frequency implements Serializable {
 	}
 
 	public void setId(int id) {
+		if(id<=0d){
+			throw new IllegalArgumentException("The id must be positive");
+		}
 		this.id = id;
 	}
 
@@ -40,6 +46,9 @@ public class Frequency implements Serializable {
 	}
 
 	public void setUnit(int unit) {
+		if(unit<=0d){
+			throw new IllegalArgumentException("unit must be positive");
+		}
 		this.unit = unit;
 	}
 
