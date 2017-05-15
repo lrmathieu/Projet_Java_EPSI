@@ -51,7 +51,7 @@ public class AuthentifController extends ControllerBase{
 			mp=(String)em.createQuery("SELECT o.password From Owner o where o.id=51").getSingleResult();		
 			
 			
-			//em.close();
+			em.close();
 		}
 		catch(PersistenceException e) {
 			this.btnSign.setDisable(true);

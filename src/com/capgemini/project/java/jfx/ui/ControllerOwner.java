@@ -99,6 +99,9 @@ public class ControllerOwner extends ControllerBase{
 	private void handleBtnNew(ActionEvent event) {
 		this.listOwners.getSelectionModel().select(null); // indirectly calls updateForm(new Task())
 		this.btnNew.setDisable(true);
+		this.txtLabelPw.setText("");
+		this.txtLabelLog.setText("");
+		
 	}
 	
 	private boolean updateForm(Owner newOwner) {
