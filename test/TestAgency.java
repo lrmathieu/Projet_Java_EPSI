@@ -10,8 +10,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.capgemini.training.java.jfx.biz.Task;
-
 public class TestAgency {
 	
 	@Test (expected = IllegalArgumentException.class) 
