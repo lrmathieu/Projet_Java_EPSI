@@ -34,6 +34,9 @@ public class TransactionType implements Serializable {
 	}
 
 	public void setId(int id) {
+		if(id<=0d){
+			throw new IllegalArgumentException("id must be positive");
+		}
 		this.id = id;
 	}
 
@@ -43,6 +46,9 @@ public class TransactionType implements Serializable {
 	}
 
 	public void setWording(String wording) {
+		if(wording.isEmpty()){
+			throw new IllegalArgumentException("wording cannot be empty");
+		}
 		this.wording = wording;
 	}
 
@@ -57,7 +63,7 @@ public class TransactionType implements Serializable {
 		this.periodictransactions = periodictransactions;
 	}
 
-	public PeriodicTransaction addPeriodicTransaction(PeriodicTransaction periodictransaction) {
+/*	public PeriodicTransaction addPeriodicTransaction(PeriodicTransaction periodictransaction) {
 		getPeriodicTransactions().add(periodictransaction);
 		periodictransaction.setTransactionType(this);
 
@@ -69,7 +75,7 @@ public class TransactionType implements Serializable {
 		periodictransaction.setTransactionType(null);
 
 		return periodictransaction;
-	}
+	}*/
 	
 	@Override
 	public String toString() {

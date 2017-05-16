@@ -47,7 +47,7 @@ public class TransactionsWindowController extends ControllerBase{
 	@FXML private ChoiceBox<Account> choiceAccount;
 	@FXML private ChoiceBox<TargetTransaction> choiceTarget;
 	@FXML private ChoiceBox<String> choiceCreditOrDebit;
-	@FXML private ChoiceBox<String> selectAccount;
+	//@FXML private ChoiceBox<String> selectAccount;
 	@FXML private TextField transValue;
 	@FXML private Button btnApply;
 	@FXML private Button btnDelete;
@@ -81,7 +81,6 @@ public class TransactionsWindowController extends ControllerBase{
 			List<PeriodicTransaction> transactions = em.createNamedQuery(
 					"PeriodicTransaction.findAll", PeriodicTransaction.class
 			).getResultList();
-			//List<PeriodicTransaction> transactions = em.createQuery("SELECT t FROM PeriodicTransaction t").getResultList();
 			List<TransactionType> transactiontypes = em.createNamedQuery(
 					"TransactionType.findAll", TransactionType.class
 			).getResultList();
@@ -92,22 +91,17 @@ public class TransactionsWindowController extends ControllerBase{
 					"TargetTransaction.findAll", TargetTransaction.class
 			).getResultList();
 			
-			// Initialization for select accounts
-			List<String> accountNumbers = em.createQuery("SELECT a.accountNumber FROM Account a", String.class).getResultList(); //SELECT a.accountNumber
-			accountNumbers.add(0, "All Accounts");
-			this.selectAccount.setItems(FXCollections.observableList(accountNumbers));
-			this.selectAccount.getSelectionModel().selectFirst();
-			
 			this.choiceAccount.setItems(FXCollections.observableList(accounts));			
 			this.choiceTarget.setItems(FXCollections.observableList(targets));
 			this.choiceTransactionType.setItems(FXCollections.observableList(transactiontypes));
 			this.listTransactions.setItems(FXCollections.observableList(transactions));			
 			
-			// Initialization choiceBox for choice between debit or credit //(with default value = Debit)
+			// Initialization choiceBox in order to give user the choice between debit or credit //(with default value = Debit)
 			this.choiceCreditOrDebit.setItems(FXCollections.observableArrayList("Debit", "Credit"));
-			//this.choiceCreditOrDebit.getSelectionModel().selectFirst();
+			this.choiceCreditOrDebit.getSelectionModel().selectFirst();
+			this.dirty = false;
 			
-			// Initialization for total transactions calculation
+			// Initialization for total balance calculation
 			Double sumInitialAmounts = em.createQuery("SELECT SUM(a.firstTotal) FROM Account a", Double.class).getSingleResult();
 			Double sumTransactions = em.createQuery("SELECT SUM(t.transactionValue) FROM PeriodicTransaction t", Double.class).getSingleResult();
 			if(sumInitialAmounts != null && sumTransactions != null){
@@ -116,8 +110,7 @@ public class TransactionsWindowController extends ControllerBase{
 			else{
 				this.total = Double.parseDouble("0");	
 			}
-			this.totalTransactions.setText("Total Balance: " + String.valueOf(this.total) + " €");
-
+			this.totalTransactions.setText("Total Balance: " + String.format("%.2f", this.total) + " €");
 
 			this.listTransactions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PeriodicTransaction>() {
 				@Override
@@ -137,6 +130,7 @@ public class TransactionsWindowController extends ControllerBase{
 		            }
 		        }
 		    });
+		   
 			em.close();
 		}
 		catch(PersistenceException e) {
@@ -156,6 +150,10 @@ public class TransactionsWindowController extends ControllerBase{
 	private void handleTextChanged(KeyEvent event) {
 		this.fieldChanged();
 	}
+    /**
+     * When the user makes new choice in choice boxes 
+     * @param event
+     */
 	@FXML
 	private void handleFieldChanged(ActionEvent event) {
 		this.fieldChanged();
@@ -169,76 +167,6 @@ public class TransactionsWindowController extends ControllerBase{
 		this.dirty = true;
 		this.btnApply.setDisable(false);
 	}
-
-	@FXML
-	private void handleAccountSelectFieldChanged(ActionEvent event) {
-		this.accountSelectFieldChanged();
-	}
-	
-	private void accountSelectFieldChanged() {
-/*		this.resetErrors();
-		//this.dirty = true;
-		//this.btnApply.setDisable(false);
-		//this.listTransactions.getSelectionModel().select(null);
-
-		try{
-			EntityManager em = getMediator().createEntityManager();
-			
-			if(!(this.selectAccount.getValue().equals("All Accounts"))){
-				
-				TypedQuery<Account>queryGetSelectedAccount = em.createQuery(
-						"SELECT a FROM Account a WHERE a.accountNumber=:selectedAccount", Account.class);
-				queryGetSelectedAccount.setParameter("selectedAccount", this.selectAccount.getValue());
-				
-				Account selectedAccount = queryGetSelectedAccount.getSingleResult();
-				Integer idSelectedAccount = queryGetSelectedAccount.getSingleResult().getId();
-				Double initialAmount = queryGetSelectedAccount.getSingleResult().getFirstTotal();
-				
-				this.choiceAccount.setValue(selectedAccount);
-				this.choiceAccount.setDisable(true);
-		        //Account accountView = em.find(Account.class, this.cur.getAccount());
-				//Double d = em.find(Double.class, this.selectAccount.getValue());
-				TypedQuery<PeriodicTransaction>queryGetTransactionsFromSelectedAccount = em.createQuery(
-						"SELECT t FROM PeriodicTransaction t WHERE t.account.id=:idAcc", PeriodicTransaction.class
-				);
-				queryGetTransactionsFromSelectedAccount.setParameter("idAcc", idSelectedAccount);
-				List<PeriodicTransaction> newListTransactions = queryGetTransactionsFromSelectedAccount.getResultList();
-				
-				for (int i=0; i<this.listTransactions.getItems().size(); i++) {
-					this.listTransactions.getItems().clear();
-			    }	
-				this.listTransactions.setItems(FXCollections.observableList(newListTransactions));
-					
-				TypedQuery<Double>queryTransFromSelectedAccount = em.createQuery(
-					"SELECT t.transactionValue FROM PeriodicTransaction t WHERE t.account.id=:idAcc", 
-					Double.class
-				);
-				queryTransFromSelectedAccount.setParameter("idAcc", idSelectedAccount);
-//				TypedQuery<Double>queryTransactionsFromSelectedAccount = em.createQuery(
-//						"SELECT SUM(t.transactionValue) FROM PeriodicTransaction t WHERE t.account.id=:idAcc", 
-//						Double.class);
-//				queryTransactionsFromSelectedAccount.setParameter("idAcc", idSelectedAccount);
-//				Double sumTransFromSelectedAccount = queryTransactionsFromSelectedAccount.getSingleResult();
-
-				Double sumTransFromSelectedAccount = queryTransFromSelectedAccount.getResultList().stream().mapToDouble(Double::doubleValue).sum();
-				this.total = initialAmount + sumTransFromSelectedAccount;
-				this.totalTransactions.setText("Amount: " + String.valueOf(this.total) + " €");
-
-			}
-			else{
-				List<PeriodicTransaction> allTransactions = em.createNamedQuery(
-						"PeriodicTransaction.findAll", PeriodicTransaction.class).getResultList();
-				this.listTransactions.setItems(FXCollections.observableList(allTransactions));
-				this.choiceAccount.setDisable(false);
-
-			}
-			em.close();
-		}
-		catch(PersistenceException e) {
-			this.processPersistenceException(e);
-		}	*/
-	}
- 
 	
 	/**
      * Called when the user click on "Apply" button. Add the new PeriodicTransaction on Database with the values 
@@ -275,7 +203,7 @@ public class TransactionsWindowController extends ControllerBase{
                 em.getTransaction().commit();
                 this.listTransactions.getSelectionModel().select(this.cur);
                 this.total -= this.cur.getTransactionValue();
-        		this.totalTransactions.setText("Total Balance: " + String.valueOf(this.total) + " €");
+        		this.totalTransactions.setText("Total Balance: " + String.format("%.2f", this.total) + " €");
                 this.listTransactions.getItems().remove(this.cur);            
             }
          }
@@ -299,8 +227,8 @@ public class TransactionsWindowController extends ControllerBase{
 	}
 	
 	/**
-     * Check if a Periodic Transaction is updated or not
-     * @param a PeriodicTransaction newTransaction
+	 * Update the Periodic Transaction selected by the user with the cursor of the TableView and check if it is ready to be updated
+     * @param newTransaction = new TargetTransaction selected by the user
      * @return a boolean true or false
      */
 	private boolean updateForm(PeriodicTransaction newTransaction) {
@@ -333,6 +261,10 @@ public class TransactionsWindowController extends ControllerBase{
 			return true;
 	}
 	
+	/**
+     * Check if informations set by the user are valid before saving them in database
+     * @return a boolean true or false
+     */
 	private boolean saveForm() {
 		boolean isNew = this.cur.getId()==0;
 		
@@ -372,7 +304,6 @@ public class TransactionsWindowController extends ControllerBase{
 		if(choiceCreditOrDebit.getValue().equals("Credit")){
 			this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
 		}
-		//setTextInLabelTotalTransactions(Double.parseDouble(this.transValue.getText()));
 		
 		this.cur.setAccount(this.choiceAccount.getValue());
 		this.cur.setTargetTransaction(this.choiceTarget.getValue());
@@ -380,7 +311,7 @@ public class TransactionsWindowController extends ControllerBase{
 		this.cur.setTransactionType(this.choiceTransactionType.getValue());
 		this.cur.setWording(this.txtTransaction.getText());
 
-		// endDateTransaction will be equals to dateTransaction so far
+		// endDateTransaction initialized to dateTransaction and dayNumber to endDateTransaction day number for this application version
 		this.cur.setEndDateTransaction(this.cur.getTransactionDate());
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(this.cur.getEndDateTransaction());
@@ -421,10 +352,10 @@ public class TransactionsWindowController extends ControllerBase{
 					queryGetOldTransValue.setParameter("idOldTrans", this.cur.getId());
 					Double oldTransValue = queryGetOldTransValue.getSingleResult();				
 					this.total -= oldTransValue;
-					if(selectAccount.getValue()=="Credit"){
+					if(choiceCreditOrDebit.getValue()=="Credit"){
 						this.cur.setTransactionValue(Double.parseDouble(this.transValue.getText()));
 					}
-					if(selectAccount.getValue()=="Debit"){
+					if(choiceCreditOrDebit.getValue()=="Debit"){
 						this.cur.setTransactionValue((-1)*Double.parseDouble(this.transValue.getText()));
 					}
 					setTextInLabelTotalTransactions(this.cur.getTransactionValue());
@@ -451,14 +382,6 @@ public class TransactionsWindowController extends ControllerBase{
 					this.cur.setAccount(this.choiceAccount.getValue());
 					this.cur.setTargetTransaction(this.choiceTarget.getValue());
 					this.cur.setTransactionType(this.choiceTransactionType.getValue());
-					//em.persist(this.cur);//em.refresh(em.find(Integer.class, this.cur));//em.flush();//em.remove(this.cur.getTransactionType());
-					//this.choiceAccount.getValue().addPeriodictransaction(this.cur);
-					//this.choiceTransactionType.getValue().addPeriodicTransaction(this.cur);
-					//this.choiceTarget.getValue().addPeriodicTransaction(this.cur);
-					
-/*					if(transactions.get(transactions.indexOf(this.cur)).getTransactionValue() != this.cur.getTransactionValue()){
-						setTextInLabelTotalTransactions(this.transValue.getText());
-					}*/	
 					
 					em.merge(this.cur);
 					transaction.commit();
@@ -480,18 +403,27 @@ public class TransactionsWindowController extends ControllerBase{
 			return false;
 		}
 	}
+	
+	/**
+	 * Reset visibility of error messages in the window
+	 */
 	private void resetErrors() {	
 		for(Label l : new Label[]{ errDateTrans, errTxtTrans, errTransValue, errTransType, errAccount, errTargetTrans }) {
 			l.setVisible(false);
 		}
 	}
+	
+	/**
+	 * Called when PersistenceException. Set new alert and give more details to the user about the error
+	 * @param e
+	 */
 	private void processPersistenceException(PersistenceException e) {
 		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
 	}
 	
 	/**
      * Check if a String s is a double or not
-     * @param s a String
+     * @param s = String to check
      * @return true or false if s cannot be converted to Double
      */
     private boolean isDouble(String s){
@@ -506,15 +438,11 @@ public class TransactionsWindowController extends ControllerBase{
     
 	/**
      * Set the correct transaction value depends if it is a credit or a debit
-     * @param valueInChoiceBox a String 
+     * @param value = Double
      */
-    private void setTextInLabelTotalTransactions(Double value){ //InChoiceBox){
-		this.total += value; //InChoiceBox; //this.cur.getTransactionValue();
-		this.totalTransactions.setText("Total Balance: " + String.valueOf(this.total) + " €");
-    }
-    
-    public void setNewChoiceInTargetsTransactions(TargetTransaction t){
-    	choiceTarget.setValue(t);
+    private void setTextInLabelTotalTransactions(Double value){
+		this.total += value; 
+		this.totalTransactions.setText("Total Balance: " + String.format("%.2f", this.total) + " €");
     }
 	    
 	private PeriodicTransaction cur = null;

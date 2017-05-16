@@ -9,7 +9,6 @@ import java.util.Date;
 
 /**
  * The persistent class for the PeriodicTransaction database table.
- * 
  */
 @Entity
 @NamedQuery(name="PeriodicTransaction.findAll", query="SELECT p FROM PeriodicTransaction p")
@@ -19,7 +18,6 @@ public class PeriodicTransaction implements Serializable {
 	private int dayNumber;
 	private Date endDateTransaction;
 	private int idCategory;
-	//private int idFrequency;
 	private Date transactionDate;
 	private double transactionValue;
 	private String wording;
@@ -68,6 +66,9 @@ public class PeriodicTransaction implements Serializable {
 	}
 
 	public void setId(int id) {
+		if(id<=0){
+			throw new IllegalArgumentException("id must be positive");
+		}
 		this.id = id;
 	}
 
@@ -98,14 +99,6 @@ public class PeriodicTransaction implements Serializable {
 	public void setIdCategory(int idCategory) {
 		this.idCategory = idCategory;
 	}
-	
-/*	public int getIdFrequency() {
-		return this.idFrequency;
-	}
-
-	public void setIdFrequency(int idFrequency) {
-		this.idFrequency = idFrequency;
-	}*/
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getTransactionDate() {
@@ -131,6 +124,9 @@ public class PeriodicTransaction implements Serializable {
 	}
 
 	public void setWording(String wording) {
+		if(wording.isEmpty()){
+			throw new IllegalArgumentException("wording cannot be empty");
+		}
 		this.wording = wording;
 	}
 
@@ -147,7 +143,7 @@ public class PeriodicTransaction implements Serializable {
 	}
 	
 	//bi-directional many-to-one association to Frequency
-	@ManyToOne (cascade = CascadeType.PERSIST)
+	@ManyToOne //(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="idFrequency")
 	public Frequency getFrequency() {
 		return this.frequency;
@@ -158,7 +154,7 @@ public class PeriodicTransaction implements Serializable {
 	}
 	
 	//bi-directional many-to-one association to TargetTransaction
-	@ManyToOne //(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(nullable=false, name="idTargetTransaction")
 	public TargetTransaction getTargetTransaction() {
 		return this.targettransaction;
@@ -178,9 +174,5 @@ public class PeriodicTransaction implements Serializable {
 	public void setTransactionType(TransactionType transactiontype) {
 		this.transactiontype = transactiontype;
 	}
-	
-//	public String getAccountName(){
-//		return this.account.getTypeDescription();
-//	}
 
 }

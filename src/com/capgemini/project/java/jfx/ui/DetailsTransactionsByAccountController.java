@@ -59,8 +59,10 @@ public class DetailsTransactionsByAccountController extends ControllerBase {
 			).getResultList();*/
 		
 			// Initialization for select accounts
-			List<String> accountNumbers = em.createQuery("SELECT a.accountNumber FROM Account a", String.class).getResultList(); //SELECT a.accountNumber
-			accountNumbers.add(0, "All Accounts");
+			List<String> accountNumbers = em.createQuery
+					("SELECT CONCAT(a.typeDescription, ' - ', a.accountNumber, ' - ', a.agency.bank.name) "
+							+ "FROM Account a", String.class).getResultList();
+			accountNumbers.add(0, "ALL ACCOUNTS");
 			this.selectAccount.setItems(FXCollections.observableList(accountNumbers));
 			this.selectAccount.getSelectionModel().selectFirst();
 			
@@ -112,10 +114,10 @@ public class DetailsTransactionsByAccountController extends ControllerBase {
 		try{
 			EntityManager em = getMediator().createEntityManager();
 			
-			if(!(this.selectAccount.getValue().equals("All Accounts"))){
+			if(!(this.selectAccount.getValue().equals("ALL ACCOUNTS"))){
 				
 				TypedQuery<Account>queryGetSelectedAccount = em.createQuery(
-						"SELECT a FROM Account a WHERE a.accountNumber=:selectedAccount", Account.class);
+						"SELECT a FROM Account a WHERE CONCAT(a.typeDescription, ' - ', a.accountNumber, ' - ', a.agency.bank.name)=:selectedAccount", Account.class);
 				queryGetSelectedAccount.setParameter("selectedAccount", this.selectAccount.getValue());
 				
 				//Account selectedAccount = queryGetSelectedAccount.getSingleResult();
@@ -175,7 +177,8 @@ public class DetailsTransactionsByAccountController extends ControllerBase {
 	}
 
     private void setTotalBalanceInLabel(Double value){ 
-		this.totalTransactions.setText("Total Balance: " + String.valueOf(this.total) + " €");
+		this.totalTransactions.setText("Total Balance: " + String.format("%.2f", this.total) + " €");
+		//String.valueOf(this.total)
     }
     
 	private Double total;	

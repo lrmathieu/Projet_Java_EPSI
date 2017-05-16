@@ -41,8 +41,11 @@ public class TargetTransaction implements Serializable {
 	public int getId() {
 		return this.id;
 	}
-
+	
 	public void setId(int id) {
+		if(id<=0d){
+			throw new IllegalArgumentException("id must be positive");
+		}
 		this.id = id;
 	}
 
@@ -50,8 +53,11 @@ public class TargetTransaction implements Serializable {
 	public String getIban() {
 		return this.iban;
 	}
-
+	
 	public void setIban(String iban) {
+/*		if(iban == null){
+			throw new NullPointerException("iban cannot be null");
+		}*/
 		this.iban = iban;
 	}
 
@@ -59,8 +65,11 @@ public class TargetTransaction implements Serializable {
 	public String getSummary() {
 		return this.summary;
 	}
-
+	
 	public void setSummary(String summary) {
+		if(summary.isEmpty()){
+			throw new IllegalArgumentException("summary cannot be empty");
+		}
 		this.summary = summary;
 	}
 
@@ -75,7 +84,7 @@ public class TargetTransaction implements Serializable {
 		this.PeriodicTransactions = PeriodicTransactions;
 	}
 
-	public PeriodicTransaction addPeriodicTransaction(PeriodicTransaction PeriodicTransaction) {
+/*	public PeriodicTransaction addPeriodicTransaction(PeriodicTransaction PeriodicTransaction) {
 		getPeriodicTransactions().add(PeriodicTransaction);
 		PeriodicTransaction.setTargetTransaction(this);
 
@@ -87,7 +96,7 @@ public class TargetTransaction implements Serializable {
 		PeriodicTransaction.setTargetTransaction(null);
 
 		return PeriodicTransaction;
-	}
+	}*/
 
 	@Override
 	public String toString() {
