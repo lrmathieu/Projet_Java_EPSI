@@ -227,8 +227,8 @@ public class TransactionsWindowController extends ControllerBase{
 	}
 	
 	/**
-     * Check if a Periodic Transaction is updated or not
-     * @param a PeriodicTransaction newTransaction
+	 * Update the Periodic Transaction selected by the user with the cursor of the TableView and check if it is ready to be updated
+     * @param newTransaction = new TargetTransaction selected by the user
      * @return a boolean true or false
      */
 	private boolean updateForm(PeriodicTransaction newTransaction) {
@@ -262,7 +262,7 @@ public class TransactionsWindowController extends ControllerBase{
 	}
 	
 	/**
-     * Check if informations set by the user are valid in order to save these new informations in database
+     * Check if informations set by the user are valid before saving them in database
      * @return a boolean true or false
      */
 	private boolean saveForm() {
@@ -403,18 +403,27 @@ public class TransactionsWindowController extends ControllerBase{
 			return false;
 		}
 	}
+	
+	/**
+	 * Reset visibility of error messages in the window
+	 */
 	private void resetErrors() {	
 		for(Label l : new Label[]{ errDateTrans, errTxtTrans, errTransValue, errTransType, errAccount, errTargetTrans }) {
 			l.setVisible(false);
 		}
 	}
+	
+	/**
+	 * Called when PersistenceException. Set new alert and give more details to the user about the error
+	 * @param e
+	 */
 	private void processPersistenceException(PersistenceException e) {
 		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
 	}
 	
 	/**
      * Check if a String s is a double or not
-     * @param s a String
+     * @param s = String to check
      * @return true or false if s cannot be converted to Double
      */
     private boolean isDouble(String s){
@@ -429,15 +438,11 @@ public class TransactionsWindowController extends ControllerBase{
     
 	/**
      * Set the correct transaction value depends if it is a credit or a debit
-     * @param value a Double 
+     * @param value = Double
      */
     private void setTextInLabelTotalTransactions(Double value){
 		this.total += value; 
 		this.totalTransactions.setText("Total Balance: " + String.format("%.2f", this.total) + " €");
-    }
-    
-    public void setNewChoiceInTargetsTransactions(TargetTransaction t){
-    	choiceTarget.setValue(t);
     }
 	    
 	private PeriodicTransaction cur = null;

@@ -56,8 +56,8 @@ public class TargetTransactionEditController extends ControllerBase{
 					"TargetTransaction.findAll", TargetTransaction.class
 			).getResultList();
 			
-			this.listTargetTransactions.setItems(FXCollections.observableList(targets));			
-		
+			this.listTargetTransactions.setItems(FXCollections.observableList(targets));	
+			
 			this.listTargetTransactions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TargetTransaction>() {
 				@Override
 				public void changed(ObservableValue<? extends TargetTransaction> arg0, TargetTransaction oldVal, TargetTransaction newVal) {
@@ -75,15 +75,27 @@ public class TargetTransactionEditController extends ControllerBase{
 		handleBtnNew(null);
 	}
 	
+    /**
+     * When the user set new text in text fields 
+     * @param event
+     */
 	@FXML
 	private void handleTextChanged(KeyEvent event) {
 		this.fieldChanged();
 	}
 	
+    /**
+     * When the user makes new choice in choice boxes 
+     * @param event
+     */
 	@FXML
 	private void handleFieldChanged(ActionEvent event) {
 		this.fieldChanged();
 	}
+	
+    /**
+     * When a field is changed
+     */
 	private void fieldChanged() {
 		this.resetErrors();
 		this.dirty = true;
@@ -91,7 +103,7 @@ public class TargetTransactionEditController extends ControllerBase{
 	}
 	
 	/**
-     * Called when the user click on "Apply" button. Add the new PeriodicTransaction on Database with the values 
+     * Called when the user click on "Apply" button. Add the new TargetTransacation on Database with the values 
      * chosen by the user in the different TextField and ChoiceBox
      * @param event 
      */
@@ -104,8 +116,7 @@ public class TargetTransactionEditController extends ControllerBase{
 	}
 
 	/**
-     * Called when the user click on "Delete" button
-     * Delete the selected existing PeriodicTransaction from the Database
+     * Called when the user click on "Delete" button. Delete the selected TargetTransaction from the Database
      * @param event 
      */
     @FXML
@@ -143,10 +154,16 @@ public class TargetTransactionEditController extends ControllerBase{
 	@FXML
 	private void handleBtnNew(ActionEvent event) {
 		this.listTargetTransactions.getSelectionModel().select(null); // indirectly calls updateForm(new TargetTransaction())
+		this.txtIban.setText(null);
 		this.btnNew.setDisable(true);
 		this.btnDelete.setDisable(true);
 	}
 	
+	/**
+     * Update the TargetTransaction selected by the user with the cursor of the TableView and check if it is ready to be updated
+     * @param newTransaction = new TargetTransaction selected by the user
+     * @return a boolean true or false
+     */
 	private boolean updateForm(TargetTransaction newTargetTransaction) {
 			this.resetErrors();
 			if(this.dirty) {
@@ -163,6 +180,10 @@ public class TargetTransactionEditController extends ControllerBase{
 			return true;
 	}
 	
+	/**
+     * Check if informations set by the user are valid before saving them in database
+     * @return a boolean true or false
+     */
 	private boolean saveForm() {
 		boolean isNew = this.cur.getId()==0;
 		
@@ -173,13 +194,14 @@ public class TargetTransactionEditController extends ControllerBase{
 			this.errNameTargetTransaction.setVisible(true);
 			err=true;
 		}
-		if(this.txtIban.getText()==null) {
+/*		if(this.txtIban.getText()==null) {
 			this.errIban.setVisible(true);
 			err=true;
-		}
+		}*/
 		if(err) {
 			return false;
 		}
+		
 		this.cur.setSummary(this.txtNameTargetTransaction.getText());
 		this.cur.setIban(this.txtIban.getText());
 
@@ -227,11 +249,20 @@ public class TargetTransactionEditController extends ControllerBase{
 			return false;
 		}
 	}
+	
+	/**
+	 * Reset visibility of error messages in the window
+	 */
 	private void resetErrors() {	
 		for(Label l : new Label[]{ errNameTargetTransaction, errIban}) {
 			l.setVisible(false);
 		}
 	}
+	
+	/**
+	 * Called when PersistenceException. Set new alert and give more details to the user about the error
+	 * @param e
+	 */
 	private void processPersistenceException(PersistenceException e) {
 		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
 	}
