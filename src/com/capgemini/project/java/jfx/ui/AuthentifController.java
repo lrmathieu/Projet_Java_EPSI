@@ -2,31 +2,20 @@ package com.capgemini.project.java.jfx.ui;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
-import javax.persistence.RollbackException;
+
 import com.capgemini.project.java.jfx.biz.Owner;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 
 public class AuthentifController extends ControllerBase{
 	@FXML
@@ -43,20 +32,7 @@ public class AuthentifController extends ControllerBase{
 	@FXML private Label signLabel;
 	
 	@Override
-	public void initialize(Mediator mediator) {
-		
-		try{
-			EntityManager em = mediator.createEntityManager();
-			log= (String) em.createQuery("SELECT o.login From Owner o where o.id=51").getSingleResult();
-			mp=(String)em.createQuery("SELECT o.password From Owner o where o.id=51").getSingleResult();		
-			
-			
-			em.close();
-		}
-		catch(PersistenceException e) {
-			this.btnSign.setDisable(true);
-			this.processPersistenceException(e);
-		}
+	public void initialize(Mediator mediator) {		
 		
 		handleBtnCancel(null);
 	}
@@ -75,28 +51,38 @@ public class AuthentifController extends ControllerBase{
 	}
 	@FXML
 	private void handleBtnSign(ActionEvent event) throws IOException {
+		EntityManager em = getMediator().createEntityManager();			
 			
-			boolean err=false;
-			String loginUser=this.txtLabelLogin.getText();
-			String passwHash = HashPassword(this.txtLabelPwd.getText());
+			@SuppressWarnings("unchecked")
+			List<String> resultListLog = (List<String>) em.createQuery("SELECT o.login From Owner o").getResultList(); // where o.login ='loginUser'")
 			
-			if(passwHash.equals(mp) && loginUser.equals(log)){  //To do faire comparaison par couple mp et log car une liste ici
-				//Message de confirmation de connexion et ouverture d'une page
-				this.welcomeLabel.setVisible(true);
-				welcomeLabel.setText("Welcome to my personnal bank");
-				this.signLabel.setVisible(false);
-				
+			@SuppressWarnings("unchecked")
+			List<String> resultListPw = (List<String>)em.createQuery("SELECT o.password From Owner o").getResultList();// where o.password ='passwHash'")
+		
+			
+			for(int i=0;i<resultListLog.size() && search==false;i++){
+					if(resultListLog.get(i).equals(this.txtLabelLogin.getText()) && resultListPw.get(i).equals(HashPassword(this.txtLabelPwd.getText()))){	
+						search=true;
+					}
 			}
+					if(search==true){
 			
-			else{
-				
-				this.signLabel.setVisible(true);
-				signLabel.setText("Sign in  to my personnal bank");
-				this.errLabel.setVisible(true);
-				errLabel.setText("Login or Password incorrect");
-				this.welcomeLabel.setVisible(false);
-			}
-
+						this.welcomeLabel.setVisible(true);
+						welcomeLabel.setText("Welcome to my personnal bank");
+						this.errLabel.setVisible(false);
+						this.signLabel.setVisible(false);
+						
+					}
+			
+					else{
+							this.signLabel.setVisible(true);
+							signLabel.setText("Sign in  to my personnal bank");
+							this.errLabel.setVisible(true);
+							errLabel.setText("Login or Password incorrect");
+							this.welcomeLabel.setVisible(false);
+							
+					}	
+															
 			if(this.txtLabelLogin.getText().isEmpty()){
 				this.errLabelLogin.setVisible(true);
 				err=true;
@@ -106,13 +92,7 @@ public class AuthentifController extends ControllerBase{
 				
 				err=true;
 			}	
-			
-			
-		
-			if(err) {
-				//return false;
-			}
-		
+								
 	}
 	
 	@FXML
@@ -155,22 +135,15 @@ public class AuthentifController extends ControllerBase{
         
 		return hashString.toString();
 	}
-
-	
 	
 	private void resetErrors() {
 		for(Label l : new Label[]{errLabelPwd, errLabelLogin, errLabel}) {
 			l.setVisible(false);
 		}
 	}
-	private void processPersistenceException(PersistenceException e) {
-		new Alert(AlertType.ERROR, "Database error : "+e.getLocalizedMessage(), ButtonType.OK).showAndWait();
-	}	 
 
-
-	
-	private String log;
-	private String mp;
+	boolean search=false;
+	private boolean err=false;
 	
 }
 

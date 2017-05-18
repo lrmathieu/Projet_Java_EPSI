@@ -29,7 +29,7 @@
                 <RowConstraints maxHeight="313.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <AnchorPane prefHeight="328.0" prefWidth="671.0" GridPane.rowIndex="1">
+                  <AnchorPane prefHeight="359.0" prefWidth="720.0" GridPane.rowIndex="1">
                      <children>
                      
                         
@@ -51,23 +51,22 @@
                            </font></Label>                   
                         <PasswordField fx:id="txtLabelPwd" layoutX="350.0" layoutY="212.0" onKeyPressed="#handleTextChanged" prefHeight="37.0" prefWidth="197.0" />
                         <Label fx:id="errLabelPwd" layoutX="350.0" layoutY="250.0" prefHeight="37.0" prefWidth="230.0" text="Password cannot be empty" textFill="RED" visible="false" />
-                         <Label fx:id="errLabel" layoutX="315.0" layoutY="41.0" prefHeight="60.0" prefWidth="300.0" text="Login or Password incorrect" textFill="RED" visible="false">
+                         <Label fx:id="errLabel" layoutX="315.0" layoutY="69.0" prefHeight="19.0" prefWidth="300.0" text="Login or Password incorrect" textFill="RED" visible="false">
                          	 <font>
             					<Font name="Vivaldi Italic" size="30.0" />
          					</font>
      					 </Label>
      					 
-     					 <Label fx:id="welcomeLabel" layoutX="133.0" layoutY="-35.0" prefHeight="60.0" prefWidth="417.0" text="Welcome to my personnal bank" textAlignment="CENTER" textFill="GREEN" visible="false">
+     					 <Label fx:id="signLabel" layoutX="223.0" layoutY="27.0" prefHeight="52.0" prefWidth="417.0" text="Sign in  to my personnal bank" textAlignment="CENTER" textFill="GREEN" visible="true">
                          	 <font>
+            					<Font name="Vivaldi Italic" size="30.0" />
+         					</font>
+     					 </Label>
+                        <Label fx:id="welcomeLabel" layoutX="113.0" layoutY="-10.0" prefHeight="54.0" prefWidth="456.0" text="Welcome to my personnal bank" textAlignment="CENTER" textFill="GREEN" visible="false">
+                        	 <font>
             					<Font name="Vivaldi Italic" size="40.0" />
          					</font>
-     					 </Label>
-     					 
-     					 <Label fx:id="signLabel" layoutX="222.0" layoutY="6.0" prefHeight="60.0" prefWidth="417.0" text="Sign in  to my personnal bank" textAlignment="CENTER" textFill="GREEN" visible="true">
-                         	 <font>
-            					<Font name="Vivaldi Italic" size="30.0" />
-         					</font>
-     					 </Label>
+         				</Label>
                          	
                         
                          
