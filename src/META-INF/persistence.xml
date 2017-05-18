@@ -11,6 +11,7 @@
 		<class>com.capgemini.project.java.jfx.biz.PeriodicTransaction</class>
 		<class>com.capgemini.project.java.jfx.biz.TargetTransaction</class>
 		<class>com.capgemini.project.java.jfx.biz.TransactionType</class>
+		<class>com.capgemini.project.java.jfx.biz.Cityzipcode</class>
 
 
 		<properties>
